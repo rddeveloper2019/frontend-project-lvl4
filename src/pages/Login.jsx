@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Container, Col, Row,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import FormElement from '../components/FormElement.jsx';
@@ -65,7 +66,19 @@ function Login() {
                 );
               }}
             </Formik>
+
           </Col>
+        </Row>
+        <Row>
+
+          <Col className="col text-center  d-flex justify-content-center my-2">
+            <div className="p-2 w-50 shadow rounded text-white fw-bold ">
+              Нет аккаунта?
+              {'  '}
+              <Link to="/signup" className="main-color fw-bold "> Регистрация</Link>
+            </div>
+          </Col>
+
         </Row>
       </Container>
     </div>
