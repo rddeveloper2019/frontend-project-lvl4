@@ -1,54 +1,80 @@
 import React from 'react';
-import { Container, Col, Row, Form, Button } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import FormElement from '../components/FormElement.jsx';
 
 function SignUp() {
+  const initialValues = {
+    nickname: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  const validationSchema = yup.object().shape({
+    nickname: yup
+      .string()
+      .required('Обязательное поле')
+      .min(3, 'От 3 до 20 символов')
+      .max(20, 'От 3 до 20 символов'),
+    password: yup
+      .string()
+      .required('Обязательное поле')
+      .min(6, 'Не менее 6 символов'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password'), ''], 'Пароли должны совпадать')
+      .required('Обязательное поле'),
+  });
+
+  const onSubmit = (values, onSubmitProps) => {
+    console.log('Login Form data: ', values);
+    console.log('Login Submit data: ', onSubmitProps);
+  };
   return (
-    <div className='signup-page page'>
-      <Container className='vh-100 text-center d-flex flex-column justify-content-center'>
+    <div className="signup-page page">
+      <Container className="vh-100 text-center d-flex flex-column justify-content-center">
         <Row>
-          <Col className='col text-center  d-flex justify-content-center'>
-            <Form className='main-bg p-3 rounded shadow'>
-              <p className='my-1 main-color text-uppercase'>Регистрация</p>
-              <Form.Group className='mb-2' controlId='formBasicEmail'>
-                <Form.Control
-                  type='text'
-                  placeholder='Ваш ник'
-                  // className='is-invalid'
-                />
-                <Form.Text className='invalid-feedback'>
-                  Неверное имя пользователя
-                </Form.Text>
-              </Form.Group>
-
-              <Form.Group className='mb-2' controlId='formBasicPassword'>
-                <Form.Control
-                  type='password'
-                  placeholder='Пароль'
-                  className='is-invalid shadow'
-                />
-                <Form.Text className='invalid-feedback'>
-                  Неверный пароль
-                </Form.Text>
-              </Form.Group>
-
-              <Form.Group className='mb-2' controlId='formBasicPassword'>
-                <Form.Control
-                  type='password'
-                  placeholder='Подтвердите пароль'
-                  className='is-invalid shadow'
-                />
-                <Form.Text className='invalid-feedback'>
-                  Неверный пароль
-                </Form.Text>
-              </Form.Group>
-              <Button
-                variant='outline-primary'
-                type='submit'
-                className='w-100 main-button shadow'
-              >
-                Зарегистрироваться
-              </Button>
-            </Form>
+          <Col className="col text-center  d-flex justify-content-center">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
+            >
+              {(formik) => {
+                console.log(formik);
+                return (
+                  <Form className="p-3 rounded shadow">
+                    <p className="my-1 main-color text-uppercase">Войти</p>
+                    <FormElement
+                      control="nickname"
+                      name="nickname"
+                      error={formik.errors.nickname}
+                      placeholder="Ваш ник"
+                      onChange={formik.handleChange}
+                      required
+                    />
+                    <FormElement
+                      control="password"
+                      name="password"
+                      error={formik.errors.password}
+                      placeholder="Пароль"
+                      onChange={formik.handleChange}
+                      required
+                    />
+                    <FormElement
+                      control="password"
+                      name="confirmPassword"
+                      error={formik.errors.confirmPassword}
+                      placeholder="Подтвердите пароль"
+                      onChange={formik.handleChange}
+                      required
+                    />
+                    <FormElement control="submit" title="Зарегистрироваться" />
+                  </Form>
+                );
+              }}
+            </Formik>
           </Col>
         </Row>
       </Container>
