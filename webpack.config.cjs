@@ -21,15 +21,21 @@ module.exports = {
     publicPath: '/assets/',
     historyApiFallback: true,
   },
-  plugins: [
-    new MiniCssExtractPlugin(),
-  ],
+  plugins: [new MiniCssExtractPlugin()],
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
+        test: /\.(png|jpg|gif|woff|woff2|eot|ttf|svg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(js|jsx)$/,
         use: 'babel-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.s[ac]ss$/i,
