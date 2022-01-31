@@ -1,10 +1,16 @@
-import React from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
-import { Formik, Form } from 'formik';
+import React, { useRef, useEffect } from 'react';
+import {
+  Container, Col, Row, Button,
+} from 'react-bootstrap';
+import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import FormElement from '../components/FormElement.jsx';
 
 function SignUp() {
+  const nicknameRef = useRef(null);
+  useEffect(() => {
+    nicknameRef.current.focus();
+  }, []);
+
   const initialValues = {
     nickname: '',
     password: '',
@@ -45,37 +51,84 @@ function SignUp() {
             >
               {(formik) => {
                 console.log(formik);
+                const { errors, touched, handleChange } = formik;
+                const getValidClass = (name) => {
+                  const isInvalid = touched[name] && errors[name];
+                  return isInvalid ? 'form-control is-invalid' : 'form-control isvalid';
+                };
                 return (
                   <Form className="p-3 rounded shadow">
                     <p className="my-1 main-color text-uppercase">Войти</p>
-                    <FormElement
-                      control="nickname"
-                      name="nickname"
-                      error={formik.errors.nickname}
-                      touched={formik.touched.nickname}
-                      placeholder="Ваш ник"
-                      onChange={formik.handleChange}
-                      required
-                    />
-                    <FormElement
-                      control="password"
-                      name="password"
-                      error={formik.errors.password}
-                      touched={formik.touched.password}
-                      placeholder="Пароль"
-                      onChange={formik.handleChange}
-                      required
-                    />
-                    <FormElement
-                      control="password"
-                      name="confirmPassword"
-                      error={formik.errors.confirmPassword}
-                      touched={formik.touched.confirmPassword}
-                      placeholder="Подтвердите пароль"
-                      onChange={formik.handleChange}
-                      required
-                    />
-                    <FormElement control="submit" title="Зарегистрироваться" />
+                    <Field name="nickname">
+                      {() => (
+                        <div className="mb-2 position-relative">
+                          <input
+                            id="nickname"
+                            className={getValidClass('nickname')}
+                            placeholder="Ваш ник"
+                            onChange={handleChange}
+                            required
+                            ref={nicknameRef}
+                          />
+                          {errors.nickname !== 'no-message' && errors.nickname && (
+                            <div className="invalid-tooltip">
+                              {errors.nickname}
+                            </div>
+                          )}
+                        </div>
+
+                      )}
+                    </Field>
+                    <Field name="password">
+                      {() => (
+                        <div className="mb-2 position-relative">
+                          <input
+                            id="password"
+                            type="password"
+                            className={getValidClass('password')}
+                            placeholder="Пароль"
+                            onChange={handleChange}
+                            required
+
+                          />
+                          {errors.password && (
+                            <div className="invalid-tooltip">
+                              {errors.password}
+                            </div>
+                          )}
+                        </div>
+
+                      )}
+                    </Field>
+                    <Field name="confirmPassword">
+                      {() => (
+                        <div className="mb-2 position-relative">
+                          <input
+                            id="confirmPassword"
+                            type="password"
+                            className={getValidClass('confirmPassword')}
+                            placeholder="Подтвердите пароль"
+                            onChange={handleChange}
+                            required
+
+                          />
+                          {errors.confirmPassword && (
+                            <div className="invalid-tooltip">
+                              {errors.confirmPassword}
+                            </div>
+                          )}
+                        </div>
+
+                      )}
+                    </Field>
+                    <Button
+                      variant="outline-primary"
+                      type="submit"
+                      className="w-100 main-button shadow"
+                    >
+                      Зарегистрироваться
+                    </Button>
+
                   </Form>
                 );
               }}

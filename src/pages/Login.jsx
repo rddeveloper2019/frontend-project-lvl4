@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Container, Col, Row,
+  Container, Col, Row, Button,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { Formik, Form } from 'formik';
+import {
+  Formik, Form, Field,
+} from 'formik';
 import * as yup from 'yup';
-import FormElement from '../components/FormElement.jsx';
+
 import useChatStore from '../hooks/useChatStore.js';
 
 function Login() {
   const { login } = useChatStore();
   const navigate = useNavigate();
+  const nicknameRef = useRef(null);
+  useEffect(() => {
+    nicknameRef.current.focus();
+  }, []);
 
   const initialValues = {
     nickname: '',
@@ -50,35 +56,72 @@ function Login() {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
-              validateOnChange
               validateOnBlur
+              validateOnChange
               validateOnSubmit
               onSubmit={onSubmit}
+
             >
               {(formik) => {
-                console.log(formik);
+                const { errors, touched, handleChange } = formik;
+
+                const getValidClass = (name) => {
+                  const isInvalid = touched[name] && errors[name];
+                  return isInvalid ? 'form-control is-invalid' : 'form-control isvalid';
+                };
+
                 return (
                   <Form className="p-3 rounded shadow">
                     <p className="my-1 main-color text-uppercase">Войти</p>
-                    <FormElement
-                      control="nickname"
-                      name="nickname"
-                      error={formik.errors.nickname}
-                      touched={formik.touched.nickname}
-                      placeholder="Ваш ник"
-                      onChange={formik.handleChange}
-                      required
-                    />
-                    <FormElement
-                      control="password"
-                      name="password"
-                      error={formik.errors.password}
-                      touched={formik.touched.password}
-                      placeholder="Пароль"
-                      onChange={formik.handleChange}
-                      required
-                    />
-                    <FormElement control="submit" title="Войти" />
+                    <Field name="nickname">
+                      {() => (
+                        <div className="mb-2 position-relative">
+                          <input
+                            id="nickname"
+                            className={getValidClass('nickname')}
+                            placeholder="Ваш ник"
+                            onChange={handleChange}
+                            required
+                            ref={nicknameRef}
+                          />
+                          {errors.nickname !== 'no-message' && errors.nickname && (
+                            <div className="invalid-tooltip">
+                              {errors.nickname}
+                            </div>
+                          )}
+                        </div>
+
+                      )}
+                    </Field>
+                    <Field name="password">
+                      {() => (
+                        <div className="mb-2 position-relative">
+                          <input
+                            id="password"
+                            type="password"
+                            className={getValidClass('password')}
+                            placeholder="Пароль"
+                            onChange={handleChange}
+                            required
+
+                          />
+                          {errors.password && (
+                            <div className="invalid-tooltip">
+                              {errors.password}
+                            </div>
+                          )}
+                        </div>
+
+                      )}
+                    </Field>
+
+                    <Button
+                      variant="outline-primary"
+                      type="submit"
+                      className="w-100 main-button shadow"
+                    >
+                      Войти
+                    </Button>
                   </Form>
                 );
               }}

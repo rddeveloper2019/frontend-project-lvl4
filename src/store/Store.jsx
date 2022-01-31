@@ -17,10 +17,11 @@ const ChatStoreProvider = ({ children }) => {
   const isAuth = (id) => {
     console.log(currentUser);
     const { token } = getTokenFromLocal(id);
-    if (token) {
-      return true;
-    }
-    return false;
+    return !!token;
+    // if (token) {
+    //   return true;
+    // }
+    // return false;
   };
 
   const getCurrentUser = (field) => {
