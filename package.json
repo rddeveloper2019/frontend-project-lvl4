@@ -36,6 +36,7 @@
     "formik": "^2.2.9",
     "http-errors": "^1.8.0",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "pino-pretty": "^4.8.0",
     "point-of-view": "^4.14.0",

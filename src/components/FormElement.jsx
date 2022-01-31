@@ -6,13 +6,15 @@ import {
 
 const Input = (props) => {
   const {
-    name, label, error, ...rest
+    name, label, error, touched, ...rest
   } = props;
+
   return (
-    <Form.Group className="mb-2">
+    <Form.Group className="mb-2 position-relative">
       {label && <Form.Label htmlFor={name}>{label}</Form.Label>}
-      <Form.Control name={name} isInvalid={error} id={name} {...rest} />
-      <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+      <Form.Control name={name} isInvalid={error && touched} id={name} {...rest} />
+      {error !== 'no-message' && <Form.Control.Feedback type="invalid" tooltip>{error}</Form.Control.Feedback>}
+
     </Form.Group>
   );
 };

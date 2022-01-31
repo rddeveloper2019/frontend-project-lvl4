@@ -1,13 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 import {
   Container, Col, Row,
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import FormElement from '../components/FormElement.jsx';
+import useChatStore from '../hooks/useChatStore.js';
 
 function Login() {
+  const { login } = useChatStore();
+  const navigate = useNavigate();
+
   const initialValues = {
     nickname: '',
     password: '',
@@ -22,12 +27,19 @@ function Login() {
     password: yup
       .string()
       .required('Обязательное поле')
-      .min(6, 'Не менее 6 символов'),
+      .min(5, 'Не менее 5 символов'),
   });
 
-  const onSubmit = (values, onSubmitProps) => {
-    console.log('Login Form data: ', values);
-    console.log('Login Submit data: ', onSubmitProps);
+  const onSubmit = async (values, onSubmitProps) => {
+    try {
+      const user = { username: values.nickname, password: values.password };
+      const res = await axios.post('/api/v1/login', user);
+      login({ username: values.nickname, ...res.data });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      onSubmitProps.setErrors({ password: 'Неверные имя пользователя или пароль', nickname: 'no-message' });
+    }
   };
 
   return (
@@ -38,6 +50,9 @@ function Login() {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
+              validateOnChange
+              validateOnBlur
+              validateOnSubmit
               onSubmit={onSubmit}
             >
               {(formik) => {
@@ -49,6 +64,7 @@ function Login() {
                       control="nickname"
                       name="nickname"
                       error={formik.errors.nickname}
+                      touched={formik.touched.nickname}
                       placeholder="Ваш ник"
                       onChange={formik.handleChange}
                       required
@@ -57,6 +73,7 @@ function Login() {
                       control="password"
                       name="password"
                       error={formik.errors.password}
+                      touched={formik.touched.password}
                       placeholder="Пароль"
                       onChange={formik.handleChange}
                       required

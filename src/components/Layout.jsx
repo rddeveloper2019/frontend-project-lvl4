@@ -14,7 +14,7 @@ function Layout() {
     <>
       <Navbar expand="lg" className="shadow">
         <Container fluid>
-          <Navbar.Brand href="/">
+          <Navbar.Brand as={Link} to="/">
             <Image src={logo} className="hexlet-chat-logo" />
           </Navbar.Brand>
           <Nav className="ms-auto">

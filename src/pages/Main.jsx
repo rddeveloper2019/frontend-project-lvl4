@@ -1,8 +1,6 @@
 import React from 'react';
 
 import ScrollToBottom from 'react-scroll-to-bottom';
-import { Navigate } from 'react-router-dom';
-
 import {
   Container,
   Col,
@@ -15,12 +13,12 @@ import {
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
+import useChatStore from '../hooks/useChatStore.js';
 
 const Main = () => {
-  const isAuth = true;
-  if (!isAuth) {
-    return <Navigate to="/login" />;
-  }
+  const value = useChatStore();
+  console.log('Main');
+  console.log(value);
 
   return (
     <div className="page">

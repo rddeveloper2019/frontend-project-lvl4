@@ -1,12 +1,18 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import useChatStore from '../hooks/useChatStore.js';
 
 const RequireAuth = ({ children }) => {
-  const auth = true;
-  const location = useLocation();
+  const { isAuth, getCurrentUser } = useChatStore();
+  const [loggedIn, setLoggedIn] = useState(true);
 
-  if (!auth) {
-    return <Navigate to="/login" state={{ path: location.pathname }} />;
+  useEffect(() => {
+    const status = isAuth(getCurrentUser('id'));
+    setLoggedIn(status);
+  }, [isAuth, loggedIn]);
+
+  if (!loggedIn) {
+    return <Navigate to="/login" />;
   }
   return children;
 };

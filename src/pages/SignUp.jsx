@@ -39,6 +39,8 @@ function SignUp() {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
+              validateOnBlur
+              validateOnChange
               onSubmit={onSubmit}
             >
               {(formik) => {
@@ -50,6 +52,7 @@ function SignUp() {
                       control="nickname"
                       name="nickname"
                       error={formik.errors.nickname}
+                      touched={formik.touched.nickname}
                       placeholder="Ваш ник"
                       onChange={formik.handleChange}
                       required
@@ -58,6 +61,7 @@ function SignUp() {
                       control="password"
                       name="password"
                       error={formik.errors.password}
+                      touched={formik.touched.password}
                       placeholder="Пароль"
                       onChange={formik.handleChange}
                       required
@@ -66,6 +70,7 @@ function SignUp() {
                       control="password"
                       name="confirmPassword"
                       error={formik.errors.confirmPassword}
+                      touched={formik.touched.confirmPassword}
                       placeholder="Подтвердите пароль"
                       onChange={formik.handleChange}
                       required

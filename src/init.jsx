@@ -7,9 +7,11 @@ const container = document.querySelector('#root');
 
 const init = () => {
   ReactDOM.render(
+
     <BrowserRouter>
       <App className="app h-100" />
     </BrowserRouter>,
+
     container,
   );
 };
