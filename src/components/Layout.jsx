@@ -5,7 +5,7 @@ import {
 import {
   Container, Image, Navbar, Nav,
 } from 'react-bootstrap';
-import logo from '../../assets/img/HSC.png';
+import logo from '../../assets/img/HSC2-logo.png';
 
 function Layout() {
   const location = useLocation();
