@@ -57,7 +57,7 @@ const Channels = () => {
             <ButtonGroup className="w-100">
               <Button
                 variant="outline-primary"
-                className="channel-button bg-gray py-3"
+                className="channel-button py-3"
               >
                 <span className="round me-2">+</span>
                 {' '}

@@ -8,7 +8,7 @@ const Message = ({ username, body }) => {
       as="li"
       className="d-flex bg-transparent py-1 border-0"
     >
-      <div className="p-1 mb-1 bg-gray text-dark d-inline-block rounded text-start">
+      <div className="text-dark d-inline-block rounded text-start">
         <b>
           {username}
           :

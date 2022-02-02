@@ -16,13 +16,13 @@ const DefaultChannel = (props) => {
     id, name, handleOnClick, active,
   } = props;
 
-  let classes = 'channel-button bg-gray';
+  let classes = 'channel-button';
   if (active) {
     classes += ' active';
   }
 
   return (
-    <ListGroup.Item className="list-group-item bg-transparent border-0 ">
+    <ListGroup.Item className="list-group-item bg-transparent border-0 py-1">
       <ButtonGroup className="w-100  ">
         <Button
           variant="outline-primary"
@@ -41,13 +41,13 @@ const RemovableChannel = (props) => {
   const {
     id, name, handleOnClick, active,
   } = props;
-  let classes = 'channel-button bg-gray';
+  let classes = 'channel-button';
   if (active) {
     classes += ' active';
   }
 
   return (
-    <ListGroup.Item className="list-group-item bg-transparent border-0 py-1">
+    <ListGroup.Item className="list-group-item bg-transparent border-0 py-1 ">
       <ButtonGroup className="w-100">
 
         <Button
@@ -62,9 +62,8 @@ const RemovableChannel = (props) => {
         <DropdownButton
           as={ButtonGroup}
           title=""
-          id="bg-nested-dropdown"
           variant="outline-primary"
-          className="bg-gray"
+
         >
           <Dropdown.Item>Удалить</Dropdown.Item>
           <Dropdown.Item>Переименовать</Dropdown.Item>

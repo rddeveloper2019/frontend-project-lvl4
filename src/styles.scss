@@ -8,7 +8,7 @@ body {
 
 .page {
   height: 100%;
-  background-image: url('../assets/img/chat-bg.svg');
+  background-color: rgba(244, 248, 230, 0.7);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top center;
@@ -23,6 +23,8 @@ body {
   background-image: url('../assets/img/page-not-found.svg');
 }
 .hexlet-chat-logo {
+  background-color: rgba(244, 248, 230, 0.7);
+  transform: skewX(-20deg);
   width: 200px;
   &:hover {
     transition: all 0.2s ease-in-out;
@@ -74,15 +76,7 @@ body {
   padding: 10px 15px;
   border-radius: 7px;
 }
-.bg-gray {
-  background-color: rgba(69, 167, 189, 0.5);
-}
 
-.channel-item {
-  border: 1px solid $main-color !important;
-  color: $main-color !important;
-  border-radius: 7px;
-}
 .pt-50px {
   padding-top: 55px;
 }

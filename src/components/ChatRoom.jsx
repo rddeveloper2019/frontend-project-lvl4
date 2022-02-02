@@ -28,7 +28,7 @@ const ChatRoom = () => {
   return (
     <>
       <div className="settings-tray d-flex justify-content-between align-items-center shadow">
-        <div className="w-100 channel-item d-flex justify-content-start align-items-center shadow p-0">
+        <div className="w-100 d-flex justify-content-start align-items-center shadow p-0">
           <span className="round d-flex justify-content-center align-items-center ms-2">
             #
           </span>
@@ -48,7 +48,7 @@ const ChatRoom = () => {
 
         </ListGroup>
       </ScrollToBottom>
-      <div className="settings-tray bg-gray d-flex justify-content-between align-items-center mt-auto shadow">
+      <div className="settings-tray d-flex justify-content-between align-items-center mt-auto shadow">
         <InputGroup className="mb-3">
           <FormControl
             placeholder="Write your message"
