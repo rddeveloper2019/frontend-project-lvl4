@@ -3,9 +3,9 @@ import tokenServices from '../services/tokenServices.js';
 
 const { setTokenToLocal, getTokenFromLocal, removeToken } = tokenServices;
 
-const ChatStore = createContext(null);
+const ChatContext = createContext(null);
 
-const ChatStoreProvider = ({ children }) => {
+const ChatContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   const login = (loginData) => {
@@ -14,9 +14,8 @@ const ChatStoreProvider = ({ children }) => {
     setCurrentUser({ username, ...localData });
   };
 
-  const isAuth = (id) => {
-    console.log(currentUser);
-    const { token } = getTokenFromLocal(id);
+  const isAuth = () => {
+    const token = getTokenFromLocal();
     return !!token;
     // if (token) {
     //   return true;
@@ -47,13 +46,17 @@ const ChatStoreProvider = ({ children }) => {
   };
 
   return (
-    <ChatStore.Provider value={{
-      getCurrentUser, login, isAuth, logout,
-    }}
+    <ChatContext.Provider
+      value={{
+        getCurrentUser,
+        login,
+        isAuth,
+        logout,
+      }}
     >
       {children}
-    </ChatStore.Provider>
+    </ChatContext.Provider>
   );
 };
-export { ChatStore };
-export default ChatStoreProvider;
+export { ChatContext };
+export default ChatContextProvider;

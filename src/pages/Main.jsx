@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import ScrollToBottom from 'react-scroll-to-bottom';
 import {
@@ -8,96 +8,38 @@ import {
   Button,
   InputGroup,
   ListGroup,
-  ButtonGroup,
   FormControl,
-  Dropdown,
-  DropdownButton,
+
 } from 'react-bootstrap';
-import useChatStore from '../hooks/useChatStore.js';
+
+import { useDispatch } from 'react-redux';
+import Channels from '../components/Channels.jsx';
+
+import { sayHello, initChat } from '../store/ChatSlice.js';
 
 const Main = () => {
-  const value = useChatStore();
-  console.log('Main');
-  console.log(value);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(initChat());
+    dispatch(sayHello());
+  }, []);
   return (
     <div className="page">
       <Container className="vh-100 text-center d-flex flex-column justify-content-start pt-50px">
         <Row className="h-100">
-          <Col className="col-3 h-100 p-1 channels-block">
-            <div className="settings-tray bg-gray d-flex justify-content-between align-items-center shadow">
-              <Button
-                variant="outline-primary"
-                className="btn w-100  d-flex justify-content-start align-items-center main-button shadow"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
-                <span className="round d-flex justify-content-center align-items-center">
-                  +
-                </span>
-                <p className="text-center m-0 ms-3">Add Channel</p>
-              </Button>
-            </div>
-            <div className="channels-list">
-              <ListGroup>
-                <ListGroup.Item className="list-group-item bg-transparent border-0">
-                  <Button
-                    variant="outline-primary"
-                    className="btn w-100 channel-item d-flex justify-content-start align-items-center main-button shadow px-1"
-                  >
-                    <span className="round d-flex justify-content-center align-items-center">
-                      #
-                    </span>
-                    <p className="text-center m-0 ms-3">Channel-main-1</p>
-                  </Button>
-                </ListGroup.Item>
-                <ListGroup.Item className="list-group-item bg-transparent border-0">
-                  <Button
-                    variant="outline-primary"
-                    className="btn w-100 channel-item d-flex justify-content-start align-items-center main-button shadow px-1"
-                  >
-                    <span className="round d-flex justify-content-center align-items-center">
-                      #
-                    </span>
-                    <p className="text-center m-0 ms-3">Channel-main-1</p>
-                  </Button>
-                </ListGroup.Item>
-                <ListGroup.Item className="list-group-item bg-transparent border-0">
-                  <ButtonGroup className="btn w-100 d-flex justify-content-start align-items-center p-0 main-button shadow  ">
-                    <Button
-                      variant="outline-primary"
-                      className="btn d-flex justify-content-start align-items-center custom-channel-button px-1"
-                    >
-                      <span className="round d-flex justify-content-center align-items-center">
-                        #
-                      </span>
-                      <p className="text-center m-0 ms-3">Channel-main-1</p>
-                    </Button>
-                    <DropdownButton
-                      as={ButtonGroup}
-                      id="bg-vertical-dropdown-3"
-                      variant="outline-primary"
-                      className="custom-channel-button"
-                      title=""
-                    >
-                      <Dropdown.Item>Dropdown link</Dropdown.Item>
-
-                      <Dropdown.Item>Dropdown link</Dropdown.Item>
-                    </DropdownButton>
-                  </ButtonGroup>
-                </ListGroup.Item>
-              </ListGroup>
-            </div>
+          <Col className="col-3 h-100 p-1 channels-block settings-tray">
+            <Channels />
           </Col>
           <Col className="col-9 border-start border-end h-100 d-flex flex-column justify-content-between p-1">
-            <div className="settings-tray bg-gray d-flex justify-content-between align-items-center shadow">
+            <div className="settings-tray d-flex justify-content-between align-items-center shadow">
               <div className="w-100 channel-item d-flex justify-content-start align-items-center shadow p-0">
                 <span className="round d-flex justify-content-center align-items-center ms-2">
                   #
                 </span>
                 <div className="py-1">
                   <p className="text-center m-0 ms-3">Channel-name</p>
-                  <p className="text-center m-0 ms-3 text-muted">8 messages</p>
+                  <p className="text-center m-0 ms-3 text-dark">8 messages</p>
                 </div>
               </div>
             </div>

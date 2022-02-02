@@ -1,20 +1,11 @@
 @import '~bootstrap/scss/bootstrap';
 
-$main-color: #a652b5;
+$main-color: #860697;
 
 body {
   height: 100vh;
 }
 
-input {
-  &.form-control {
-    &:focus {
-      border-color: none;
-      outline: 0;
-      box-shadow: 0 0 0 0.1rem $main-color;
-    }
-  }
-}
 .page {
   height: 100%;
   background-image: url('../assets/img/chat-bg.svg');
@@ -42,29 +33,32 @@ input {
 .main-color {
   color: $main-color !important;
 }
-.main-button {
-  color: $main-color !important;
-  border: 1px solid $main-color !important;
-}
-.main-button:hover,
-.custom-channel-button:hover {
-  background-color: $main-color !important;
+
+.round {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   color: #fff !important;
+  background-color: $main-color;
+  border-color: #fff !important;
 }
-.main-button:hover *,
-.custom-channel-button:hover * {
-  background-color: $main-color !important;
-  color: #fff !important;
+.channel-button {
+  width: 100% !important;
+  display: flex;
+  margin-left: 10px;
+  justify-content: flex-start;
+  align-items: center;
 }
-.custom-channel-button,
-.custom-channel-button * {
-  border: none !important;
-  color: $main-color !important;
-}
+
+//!
+
 .main-link {
   color: #fff !important;
   border: $main-color 1px solid !important;
-  background-color: #a652b5 !important;
+  background-color: $main-color !important;
   padding: 0.375rem 0.75rem !important;
   &:hover {
     color: $main-color !important;
@@ -75,26 +69,15 @@ input {
   position: absolute;
   width: 100%;
 }
-.profile-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
+
 .settings-tray {
   padding: 10px 15px;
   border-radius: 7px;
 }
 .bg-gray {
-  background-color: rgba(230, 224, 224, 0.6);
+  background-color: rgba(240, 198, 248, 0.5);
 }
 
-.round {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  color: #fff !important;
-  background-color: $main-color;
-}
 .channel-item {
   border: 1px solid $main-color !important;
   color: $main-color !important;
@@ -103,6 +86,7 @@ input {
 .pt-50px {
   padding-top: 55px;
 }
-.chat-content {
+.chat-content,
+.channels-list {
   height: calc(100% - 150px);
 }

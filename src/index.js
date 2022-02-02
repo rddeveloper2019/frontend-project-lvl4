@@ -1,5 +1,6 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
+import 'bootstrap/scss/bootstrap.scss';
 import './styles.scss';
 
 import init from './init.jsx';

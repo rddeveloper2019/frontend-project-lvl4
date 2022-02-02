@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 
 const trainings = async () => {
   const loggingUser = { username: 'admin', password: 'admin' };
-  console.log(' I AM TRAINING');
+
   const res = await axios.post('/api/v1/login', loggingUser);
-  console.log(res);
 };
 
 const channels = async () => {
@@ -17,5 +17,5 @@ const channels = async () => {
   console.log(res.data);
 };
 
-channels();
+// channels();
 export default trainings;

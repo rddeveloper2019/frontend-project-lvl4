@@ -9,10 +9,10 @@ import {
 } from 'formik';
 import * as yup from 'yup';
 
-import useChatStore from '../hooks/useChatStore.js';
+import useChatContext from '../hooks/useChatContext.js';
 
 function Login() {
-  const { login } = useChatStore();
+  const { login } = useChatContext();
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
   useEffect(() => {
@@ -41,10 +41,12 @@ function Login() {
       const user = { username: values.nickname, password: values.password };
       const res = await axios.post('/api/v1/login', user);
       login({ username: values.nickname, ...res.data });
+      onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
       console.log(error);
       onSubmitProps.setErrors({ password: 'Неверные имя пользователя или пароль', nickname: 'no-message' });
+      onSubmitProps.setSubmitting(false);
     }
   };
 
@@ -56,14 +58,16 @@ function Login() {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
-              validateOnBlur
+              // validateOnBlur
               validateOnChange
               validateOnSubmit
               onSubmit={onSubmit}
 
             >
               {(formik) => {
-                const { errors, touched, handleChange } = formik;
+                const {
+                  errors, touched, handleChange, isValid, isSubmitting,
+                } = formik;
 
                 const getValidClass = (name) => {
                   const isInvalid = touched[name] && errors[name];
@@ -119,6 +123,7 @@ function Login() {
                       variant="outline-primary"
                       type="submit"
                       className="w-100 main-button shadow"
+                      disabled={isSubmitting || !isValid}
                     >
                       Войти
                     </Button>

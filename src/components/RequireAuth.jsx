@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import useChatStore from '../hooks/useChatStore.js';
+import useChatContext from '../hooks/useChatContext.js';
 
 const RequireAuth = ({ children }) => {
-  const { isAuth, getCurrentUser } = useChatStore();
+  const { isAuth } = useChatContext();
   const [loggedIn, setLoggedIn] = useState(true);
 
   useEffect(() => {
-    const status = isAuth(getCurrentUser('id'));
+    const status = isAuth();
     setLoggedIn(status);
   }, [isAuth, loggedIn]);
 
