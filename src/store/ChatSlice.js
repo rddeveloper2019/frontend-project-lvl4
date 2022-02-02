@@ -32,15 +32,16 @@ const chatSlice = createSlice({
     channels: [],
     messages: [],
     users: [],
-    currentChannelId: 1,
+    currentChannelId: null,
     channelsFetchState: null,
     channelsFetchError: null,
 
   },
   reducers: {
-    sayHello: () => {
-      console.log('Hello');
+    setCurrentChannel: (state, action) => {
+      state.currentChannelId = action.payload.id;
     },
+
   },
 
   extraReducers: {
@@ -67,7 +68,7 @@ const chatSlice = createSlice({
 });
 
 const { reducer } = chatSlice;
-const { sayHello } = chatSlice.actions;
+const { setCurrentChannel } = chatSlice.actions;
 
-export { sayHello, initChat };
+export { setCurrentChannel, initChat };
 export default reducer;
