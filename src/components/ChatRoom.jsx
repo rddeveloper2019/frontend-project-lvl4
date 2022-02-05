@@ -16,9 +16,14 @@ const ChatRoom = () => {
   const [messageText, setMessageText] = useState('');
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
   const { socket } = useSocketsContext();
-  const { currentUser } = useChatContext();
+  const { currentUser, initUserName } = useChatContext();
 
   useEffect(() => {
+    initUserName();
+  }, []);
+
+  useEffect(() => {
+    initUserName();
     const currentChannel = channels.find((channel) => channel.id === currentChannelId);
     const messageList = messages.filter((msg) => msg.channelId === currentChannelId);
 

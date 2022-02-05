@@ -11,7 +11,7 @@ const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue
     const response = await axios.get(
       pathes.dataPath(), {
         headers: {
-          Authorization: `Bearer ${getTokenFromLocal()}`,
+          Authorization: `Bearer ${getTokenFromLocal().token}`,
         },
       },
     );

@@ -23,15 +23,23 @@ const ChatContextProvider = ({ children }) => {
     }
   };
 
-  const login = (loginData) => {
+  const login = async (loginData) => {
     const { username, token } = loginData;
-    const localData = setTokenToLocal(token);
+    console.log(loginData);
+    const localData = await setTokenToLocal({ username, token });
     setCurrentUser({ username, ...localData });
   };
 
+  const initUserName = () => {
+    const data = getTokenFromLocal();
+    if (data) {
+      setCurrentUser({ ...data });
+    }
+  };
+
   const isAuth = () => {
-    const token = getTokenFromLocal();
-    return !!token;
+    const data = getTokenFromLocal();
+    return !!data;
     // if (token) {
     //   return true;
     // }
@@ -52,6 +60,7 @@ const ChatContextProvider = ({ children }) => {
         logout,
         identifyError,
         onLoginError,
+        initUserName,
       }}
     >
       {children}
