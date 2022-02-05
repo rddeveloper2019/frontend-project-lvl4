@@ -4,15 +4,14 @@ import {
   Container, Col, Row, Button,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Formik, Form, Field,
-} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
 import useChatContext from '../hooks/useChatContext.js';
 
 function Login() {
-  const { login } = useChatContext();
+  const { login, identifyError } = useChatContext();
+
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
   useEffect(() => {
@@ -44,8 +43,13 @@ function Login() {
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
-      console.log(error);
-      onSubmitProps.setErrors({ password: 'Неверные имя пользователя или пароль', nickname: 'no-message' });
+      console.log(error.message);
+      const message = identifyError(error.message);
+
+      onSubmitProps.setErrors({
+        password: message,
+        nickname: 'no-message',
+      });
       onSubmitProps.setSubmitting(false);
     }
   };
@@ -62,16 +66,21 @@ function Login() {
               validateOnChange
               validateOnSubmit
               onSubmit={onSubmit}
-
             >
               {(formik) => {
                 const {
-                  errors, touched, handleChange, isValid, isSubmitting,
+                  errors,
+                  touched,
+                  handleChange,
+                  isValid,
+                  isSubmitting,
                 } = formik;
 
                 const getValidClass = (name) => {
                   const isInvalid = touched[name] && errors[name];
-                  return isInvalid ? 'form-control is-invalid' : 'form-control isvalid';
+                  return isInvalid
+                    ? 'form-control is-invalid'
+                    : 'form-control isvalid';
                 };
 
                 return (
@@ -88,13 +97,13 @@ function Login() {
                             required
                             ref={nicknameRef}
                           />
-                          {errors.nickname !== 'no-message' && errors.nickname && (
-                            <div className="invalid-tooltip">
-                              {errors.nickname}
-                            </div>
+                          {errors.nickname !== 'no-message'
+                            && errors.nickname && (
+                              <div className="invalid-tooltip">
+                                {errors.nickname}
+                              </div>
                           )}
                         </div>
-
                       )}
                     </Field>
                     <Field name="password">
@@ -107,7 +116,6 @@ function Login() {
                             placeholder="Пароль"
                             onChange={handleChange}
                             required
-
                           />
                           {errors.password && (
                             <div className="invalid-tooltip">
@@ -115,7 +123,6 @@ function Login() {
                             </div>
                           )}
                         </div>
-
                       )}
                     </Field>
 
@@ -131,19 +138,19 @@ function Login() {
                 );
               }}
             </Formik>
-
           </Col>
         </Row>
         <Row>
-
           <Col className="col text-center  d-flex justify-content-center my-2">
             <div className="p-2 w-50 shadow rounded text-white fw-bold ">
               Нет аккаунта?
               {'  '}
-              <Link to="/signup" className="main-color fw-bold "> Регистрация</Link>
+              <Link to="/signup" className="main-color fw-bold ">
+                {' '}
+                Регистрация
+              </Link>
             </div>
           </Col>
-
         </Row>
       </Container>
     </div>

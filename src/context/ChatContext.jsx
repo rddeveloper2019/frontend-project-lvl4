@@ -7,6 +7,21 @@ const ChatContext = createContext(null);
 
 const ChatContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [onLoginError, setOnLoginError] = useState('');
+
+  const identifyError = (message) => {
+    switch (message) {
+      case 'Request failed with status code 401': {
+        setOnLoginError('Неверные имя пользователя или пароль');
+        console.log(onLoginError);
+        return 'Неверные имя пользователя или пароль';
+      }
+      default: {
+        setOnLoginError('Ошибка сервера');
+        return 'Ошибка сервера';
+      }
+    }
+  };
 
   const login = (loginData) => {
     const { username, token } = loginData;
@@ -23,23 +38,6 @@ const ChatContextProvider = ({ children }) => {
     // return false;
   };
 
-  const getCurrentUser = (field) => {
-    if (currentUser) {
-      switch (field) {
-        case 'username':
-          return currentUser.username;
-        case 'id':
-          return currentUser.userId;
-        default:
-          return {
-            username: currentUser.username,
-            userId: currentUser.userId,
-          };
-      }
-    }
-    return null;
-  };
-
   const logout = (id) => {
     removeToken(id);
     setCurrentUser(null);
@@ -48,10 +46,12 @@ const ChatContextProvider = ({ children }) => {
   return (
     <ChatContext.Provider
       value={{
-        getCurrentUser,
+        currentUser,
         login,
         isAuth,
         logout,
+        identifyError,
+        onLoginError,
       }}
     >
       {children}

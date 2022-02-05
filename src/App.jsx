@@ -8,26 +8,31 @@ import PageNotFound from './pages/PageNotFound.jsx';
 import Layout from './components/Layout.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
 import ChatContextProvider from './context/ChatContext.jsx';
+import SocketsContextProvider from './context/SocketsContext.jsx';
 import chatStore from './store';
 
 const App = () => (
   <Provider store={chatStore}>
     <ChatContextProvider>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={(
-              <RequireAuth>
-                <Main />
-              </RequireAuth>
+      <SocketsContextProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route
+              index
+              element={(
+                <RequireAuth>
+                  <Main />
+                </RequireAuth>
           )}
-          />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
-      </Routes>
+            />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        </Routes>
+
+      </SocketsContextProvider>
+
     </ChatContextProvider>
   </Provider>
 

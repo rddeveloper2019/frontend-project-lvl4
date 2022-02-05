@@ -1,19 +1,22 @@
+/* eslint-disable consistent-return */
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { useSelector } from 'react-redux';
 import {
-  Button,
-  InputGroup,
   ListGroup,
-  FormControl,
 } from 'react-bootstrap';
 import Message from './Message.jsx';
+import useSocketsContext from '../hooks/useSocketsContext.js';
+import useChatContext from '../hooks/useChatContext.js';
 
 const ChatRoom = () => {
   const [channelName, setChannelName] = useState('');
   const [currentMessages, setCurrentMessages] = useState([]);
+  const [messageText, setMessageText] = useState('');
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
+  const { socket } = useSocketsContext();
+  const { currentUser } = useChatContext();
 
   useEffect(() => {
     const currentChannel = channels.find((channel) => channel.id === currentChannelId);
@@ -22,8 +25,20 @@ const ChatRoom = () => {
     if (currentChannel) {
       setChannelName(currentChannel.name);
     }
+
     setCurrentMessages(messageList);
   }, [currentChannelId, messages]);
+
+  const handleSetMessage = (e) => {
+    e.preventDefault();
+    if (!messageText.trim()) {
+      return false;
+    }
+
+    const data = { body: messageText, channelId: currentChannelId, username: currentUser.username };
+    socket.emit('newMessage', data);
+    setMessageText('');
+  };
 
   return (
     <>
@@ -49,21 +64,14 @@ const ChatRoom = () => {
         </ListGroup>
       </ScrollToBottom>
       <div className="settings-tray d-flex justify-content-between align-items-center mt-auto shadow">
-        <InputGroup className="mb-3">
-          <FormControl
-            placeholder="Write your message"
-            aria-label="Username"
-            aria-describedby="button-addon2"
-          />
-          <Button
-            variant="outline-primary"
-            type="button"
-            id="button-addon2"
-            className="main-button shadow"
-          >
-            send
-          </Button>
-        </InputGroup>
+        <form onSubmit={handleSetMessage} className="w-100">
+          <div className="input-group mb-3">
+            <input type="text" className="form-control" placeholder="Write your message" aria-label="Recipient's username" aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
+
+            <button className="btn btn-outline-primary main-button shadow" type="button" id="button-addon2" onClick={handleSetMessage}>Send</button>
+          </div>
+        </form>
+
       </div>
     </>
   );
