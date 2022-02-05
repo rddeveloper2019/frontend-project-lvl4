@@ -13,7 +13,6 @@ const ChatContextProvider = ({ children }) => {
     switch (message) {
       case 'Request failed with status code 401': {
         setOnLoginError('Неверные имя пользователя или пароль');
-        console.log(onLoginError);
         return 'Неверные имя пользователя или пароль';
       }
       default: {

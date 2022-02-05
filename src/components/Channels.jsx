@@ -9,24 +9,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/ChatSlice.js';
 import Channel from './Channel.jsx';
-
-const LoadingStatus = ({ message }) => (
-  <ListGroup.Item className="list-group-item bg-primary border-0">
-    <div className="p-2 shadow mb-2 text-uppercase text-light not-found-label">
-      <Spinner
-        as="span"
-        animation="grow"
-        size="sm"
-        role="status"
-        aria-hidden="true"
-        className=" bg-warning"
-
-      />
-      {message}
-    </div>
-
-  </ListGroup.Item>
-);
+import LoadingStatus from './LoadingStatus.jsx';
 
 const Channels = () => {
   const {

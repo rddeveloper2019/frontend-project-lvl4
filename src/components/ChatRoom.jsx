@@ -9,13 +9,14 @@ import {
 import Message from './Message.jsx';
 import useSocketsContext from '../hooks/useSocketsContext.js';
 import useChatContext from '../hooks/useChatContext.js';
+import LoadingStatus from './LoadingStatus.jsx';
 
 const ChatRoom = () => {
   const [channelName, setChannelName] = useState('');
   const [currentMessages, setCurrentMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
-  const { socket } = useSocketsContext();
+  const { onSocketError, emitWithPromise } = useSocketsContext();
   const { currentUser, initUserName } = useChatContext();
 
   useEffect(() => {
@@ -41,12 +42,14 @@ const ChatRoom = () => {
     }
 
     const data = { body: messageText, channelId: currentChannelId, username: currentUser.username };
-    socket.emit('newMessage', data);
+    // socket.emit('newMessage', data);
+    emitWithPromise('newMessage', data);
     setMessageText('');
   };
 
   return (
     <>
+      {onSocketError && <LoadingStatus message={onSocketError.message} />}
       <div className="settings-tray d-flex justify-content-between align-items-center shadow">
         <div className="w-100 d-flex justify-content-start align-items-center shadow p-0">
           <span className="round d-flex justify-content-center align-items-center ms-2">
