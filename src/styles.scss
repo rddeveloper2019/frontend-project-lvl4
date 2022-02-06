@@ -1,9 +1,13 @@
 @import '~bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto&display=swap');
 
 $main-color: #0d6efd;
 
 body {
   height: 100vh;
+  * {
+    font-family: 'Roboto', sans-serif;
+  }
 }
 
 .page {
@@ -21,15 +25,6 @@ body {
 }
 .page-not-found {
   background-image: url('../assets/img/page-not-found.svg');
-}
-.hexlet-chat-logo {
-  background-color: rgba(244, 248, 230, 0.7);
-  transform: skewX(-20deg);
-  width: 200px;
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    transform: scale(1.01) translateY(-1px);
-  }
 }
 
 .main-color {
@@ -70,6 +65,20 @@ body {
 .navbar {
   position: absolute;
   width: 100%;
+  a.logo {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 34px;
+    color: $main-color;
+    transform: skewX(-20deg);
+    &:hover {
+      color: $main-color;
+      transition: all 0.1s ease-in-out;
+      transform: scale(1.01) translateY(-1px);
+    }
+    &:visited {
+      color: $main-color;
+    }
+  }
 }
 
 .settings-tray {

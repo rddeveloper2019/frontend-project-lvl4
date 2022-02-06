@@ -9,11 +9,15 @@ const ChatContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [onLoginError, setOnLoginError] = useState('');
 
-  const identifyError = (message) => {
-    switch (message) {
-      case 'Request failed with status code 401': {
+  const identifyError = (code) => {
+    switch (code) {
+      case 401: {
         setOnLoginError('Неверные имя пользователя или пароль');
         return 'Неверные имя пользователя или пароль';
+      }
+      case 409: {
+        setOnLoginError('Такой пользователь уже существует');
+        return 'Такой пользователь уже существует';
       }
       default: {
         setOnLoginError('Ошибка сервера');
@@ -24,7 +28,6 @@ const ChatContextProvider = ({ children }) => {
 
   const login = async (loginData) => {
     const { username, token } = loginData;
-    console.log(loginData);
     const localData = await setTokenToLocal({ username, token });
     setCurrentUser({ username, ...localData });
   };
@@ -39,14 +42,10 @@ const ChatContextProvider = ({ children }) => {
   const isAuth = () => {
     const data = getTokenFromLocal();
     return !!data;
-    // if (token) {
-    //   return true;
-    // }
-    // return false;
   };
 
-  const logout = (id) => {
-    removeToken(id);
+  const logout = () => {
+    removeToken();
     setCurrentUser(null);
   };
 

@@ -17,8 +17,8 @@ const getTokenFromLocal = () => {
   return null;
 };
 
-const removeToken = (id) => {
-  localStorage.removeItem(id);
+const removeToken = () => {
+  localStorage.removeItem('chat-token');
 };
 
 const tokenServices = { setTokenToLocal, getTokenFromLocal, removeToken };

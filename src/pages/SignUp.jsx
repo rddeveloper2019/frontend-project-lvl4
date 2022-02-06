@@ -3,9 +3,14 @@ import {
   Container, Col, Row, Button,
 } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import getValidationSchema from '../services/validationSchemas.js';
+import useChatContext from '../hooks/useChatContext.js';
 
 function SignUp() {
+  const { login, identifyError } = useChatContext();
+  const navigate = useNavigate();
   const nicknameRef = useRef(null);
   useEffect(() => {
     nicknameRef.current.focus();
@@ -17,10 +22,26 @@ function SignUp() {
     confirmPassword: '',
   };
 
-  const onSubmit = (values, onSubmitProps) => {
-    console.log('Login Form data: ', values);
-    console.log('Login Submit data: ', onSubmitProps);
+  const onSubmit = async (values, onSubmitProps) => {
+    onSubmitProps.setSubmitting(true);
+    try {
+      const user = { username: values.nickname, password: values.password };
+      const res = await axios.post('/api/v1/signup', user);
+      login({ username: values.nickname, ...res.data });
+      onSubmitProps.setSubmitting(false);
+      navigate('/');
+    } catch (error) {
+      const { response } = error;
+      console.log(error.response);
+      onSubmitProps.setErrors({
+        confirmPassword: identifyError(+response.status),
+        password: 'no-message',
+        nickname: 'no-message',
+      });
+      onSubmitProps.setSubmitting(false);
+    }
   };
+
   return (
     <div className="signup-page page">
       <Container className="vh-100 text-center d-flex flex-column justify-content-center">
@@ -77,7 +98,7 @@ function SignUp() {
                             required
 
                           />
-                          {errors.password && (
+                          {errors.password !== 'no-message' && errors.password && (
                             <div className="invalid-tooltip">
                               {errors.password}
                             </div>

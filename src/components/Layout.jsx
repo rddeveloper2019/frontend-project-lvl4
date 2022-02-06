@@ -1,38 +1,25 @@
 import React from 'react';
 import {
-  Outlet, Link, useLocation,
+  Outlet, Link,
 } from 'react-router-dom';
 import {
-  Container, Image, Navbar, Nav,
+  Container, Navbar, Nav,
 } from 'react-bootstrap';
-import logo from '../../assets/img/HSC2-logo.png';
+import useChatContext from '../hooks/useChatContext.js';
 
 function Layout() {
-  const location = useLocation();
-
+  const { isAuth, logout } = useChatContext();
   return (
     <>
       <Navbar expand="lg" className="shadow">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">
-            <Image src={logo} className="hexlet-chat-logo" />
+          <Navbar.Brand as={Link} to="/" className="logo">
+            Hexlet Chat
           </Navbar.Brand>
           <Nav className="ms-auto">
-            <Link
-              to="/login"
-              className="btn btn-outline-primary main-link shadow me-3"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="btn btn-outline-primary main-link shadow me-3"
-            >
-              SignUp
-            </Link>
 
-            {location.pathname !== '/login' && (
-              <Link to="/" className="btn btn-outline-primary main-link shadow">
+            {isAuth() && (
+              <Link to="/" className="btn btn-outline-primary main-link shadow" onClick={logout}>
                 Выйти
               </Link>
             )}

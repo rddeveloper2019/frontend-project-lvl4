@@ -22,17 +22,20 @@ function Login() {
   };
 
   const onSubmit = async (values, onSubmitProps) => {
+    onSubmitProps.setSubmitting(true);
+
     try {
       const user = { username: values.nickname, password: values.password };
+
       const res = await axios.post('/api/v1/login', user);
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
-      const message = identifyError(error.message);
-
+      const { response } = error;
+      console.log(error.response);
       onSubmitProps.setErrors({
-        password: message,
+        password: identifyError(+response.status),
         nickname: 'no-message',
       });
       onSubmitProps.setSubmitting(false);
