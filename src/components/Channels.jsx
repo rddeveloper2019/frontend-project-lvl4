@@ -7,7 +7,7 @@ import {
   ListGroup, Spinner, ButtonGroup, Row,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel } from '../store/ChatSlice.js';
+import { setCurrentChannel, setSelectedChannel } from '../store/ChatSlice.js';
 import { showModal } from '../store/ModalSlice.js';
 import Channel from './Channel.jsx';
 import LoadingStatus from './LoadingStatus.jsx';
@@ -15,7 +15,7 @@ import LoadingStatus from './LoadingStatus.jsx';
 const Channels = () => {
   const {
     channels, channelsFetchState,
-    channelsFetchError, currentChannelId,
+    channelsFetchError, currentChannelId, selectedChannelId,
   } = useSelector((store) => store.chatstore);
 
   const dispatch = useDispatch();
@@ -27,14 +27,17 @@ const Channels = () => {
   const handleShowModal = (id, modalType) => () => {
     console.log(id);
     console.log(modalType);
+    dispatch(setSelectedChannel(id));
     dispatch(showModal(modalType));
   };
 
   const handleRename = (id) => () => {
     console.log('rename ', id);
+    dispatch(setSelectedChannel(id));
   };
   const handleDelete = (id) => () => {
     console.log('delete ', id);
+    dispatch(setSelectedChannel(id));
   };
 
   return (

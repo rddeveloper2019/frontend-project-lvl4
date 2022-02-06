@@ -33,6 +33,7 @@ const chatSlice = createSlice({
     messages: [],
     users: [],
     currentChannelId: null,
+    selectedChannelId: null,
     channelsFetchState: null,
     channelsFetchError: null,
 
@@ -41,11 +42,17 @@ const chatSlice = createSlice({
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload.id;
     },
+    setSelectedChannel: (state, action) => {
+      console.log(action);
+      state.selectedChannelId = action.payload;
+    },
     addMessage: (state, action) => {
       state.messages.push(action.payload);
     },
     addChannel: (state, action) => {
+      console.log('addChannel slice: ', action.payload);
       state.channels.push(action.payload);
+      state.currentChannelId = action.payload.id;
     },
   },
 
@@ -73,9 +80,11 @@ const chatSlice = createSlice({
 });
 
 const { reducer } = chatSlice;
-const { setCurrentChannel, addMessage, addChannel } = chatSlice.actions;
+const {
+  setCurrentChannel, addMessage, addChannel, setSelectedChannel,
+} = chatSlice.actions;
 
 export {
-  setCurrentChannel, initChat, addMessage, addChannel,
+  setCurrentChannel, initChat, addMessage, addChannel, setSelectedChannel,
 };
 export default reducer;

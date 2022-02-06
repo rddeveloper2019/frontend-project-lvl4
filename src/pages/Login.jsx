@@ -5,7 +5,6 @@ import {
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import getValidationSchema from '../services/validationSchemas.js';
 import useChatContext from '../hooks/useChatContext.js';
 
 function Login() {
@@ -47,8 +46,6 @@ function Login() {
           <Col className="col text-center  d-flex justify-content-center">
             <Formik
               initialValues={initialValues}
-              validationSchema={getValidationSchema({ nickname: 'standart', password: 'password' })}
-              // validateOnBlur
               validateOnChange
               validateOnSubmit
               onSubmit={onSubmit}
@@ -58,7 +55,6 @@ function Login() {
                   errors,
                   touched,
                   handleChange,
-                  isValid,
                   isSubmitting,
                 } = formik;
 
@@ -116,7 +112,7 @@ function Login() {
                       variant="outline-primary"
                       type="submit"
                       className="w-100 main-button shadow"
-                      disabled={isSubmitting || !isValid}
+                      disabled={isSubmitting}
                     >
                       Войти
                     </Button>

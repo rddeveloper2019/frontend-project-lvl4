@@ -28,14 +28,16 @@ function SignUp() {
           <Col className="col text-center  d-flex justify-content-center">
             <Formik
               initialValues={initialValues}
-              validationSchema={getValidationSchema({ nickname: 'standart', password: 'password', confirmPassword: 'confirmPassword' })}
+              validationSchema={getValidationSchema([' nickname', 'password', 'confirmPassword'])}
               validateOnBlur
               validateOnChange
               onSubmit={onSubmit}
             >
               {(formik) => {
                 console.log(formik);
-                const { errors, touched, handleChange } = formik;
+                const {
+                  errors, touched, handleChange, isSubmitting,
+                } = formik;
                 const getValidClass = (name) => {
                   const isInvalid = touched[name] && errors[name];
                   return isInvalid ? 'form-control is-invalid' : 'form-control isvalid';
@@ -109,6 +111,7 @@ function SignUp() {
                       variant="outline-primary"
                       type="submit"
                       className="w-100 main-button shadow"
+                      disabled={isSubmitting}
                     >
                       Зарегистрироваться
                     </Button>

@@ -110,9 +110,9 @@ const data = {
   ],
   currentChannelId: ch1,
   users: [
-    { id: u_id(), username: 'admin', password: 'admin' },
-    { id: u_id(), username: 'user1', password: 'user1' },
-    { id: u_id(), username: 'user2', password: 'user2' },
+    { id: u_id(), username: 'admin', password: 'admin1' },
+    { id: u_id(), username: 'user1', password: 'user11' },
+    { id: u_id(), username: 'user22', password: 'user22' },
 
   ],
 };

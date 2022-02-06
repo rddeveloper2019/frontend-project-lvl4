@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
-import { addMessage } from '../store/ChatSlice';
+import { addMessage, addChannel } from '../store/ChatSlice';
 
 const socket = io();
 
@@ -33,6 +33,9 @@ const SocketsContextProvider = ({ children }) => {
 
     socket.on('newMessage', (data) => {
       dispatch(addMessage(data));
+    });
+    socket.on('newChannel', (data) => {
+      dispatch(addChannel(data));
     });
 
     socket.on('connect_error', () => {
