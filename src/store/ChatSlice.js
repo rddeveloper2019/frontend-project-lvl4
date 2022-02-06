@@ -69,7 +69,7 @@ const chatSlice = createSlice({
       const { id } = action.payload;
       const generalChannel = state.channels.find((c) => c.name === 'general');
 
-      if (state.currentChannelId === generalChannel.id) {
+      if (state.currentChannelId === id) {
         state.currentChannelId = generalChannel.id;
       }
 
