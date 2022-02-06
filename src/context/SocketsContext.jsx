@@ -1,7 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
-import { addMessage, addChannel } from '../store/ChatSlice';
+import {
+  addMessage, addChannel, renameChannel, removeChannel,
+} from '../store/ChatSlice';
 
 const socket = io();
 
@@ -13,16 +15,22 @@ const SocketsContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const [onSocketError, setOnSocketError] = useState(null);
 
-  const emitWithPromise = async (event, data) => {
+  const emitWithPromise = async (event, data, cb = null) => {
     setOnSocketError(null);
     try {
       await socket.emit(event, data, ({ status }) => {
         if (status !== 'ok') {
           setOnSocketError({ message: 'Connection Error!' });
         }
+        if (cb) {
+          dispatch(cb());
+        }
       });
     } catch (error) {
       setOnSocketError({ message: error.message });
+      if (cb) {
+        dispatch(cb());
+      }
     }
   };
 
@@ -36,6 +44,13 @@ const SocketsContextProvider = ({ children }) => {
     });
     socket.on('newChannel', (data) => {
       dispatch(addChannel(data));
+    });
+
+    socket.on('renameChannel', (data) => {
+      dispatch(renameChannel(data));
+    });
+    socket.on('removeChannel', (data) => {
+      dispatch(removeChannel(data));
     });
 
     socket.on('connect_error', () => {

@@ -34,26 +34,33 @@ const ModalWithForm = () => {
 
     },
     renameChannel: { title: 'Переименовать канал', emit: 'renameChannel', value: selectedChannel ? selectedChannel.name : '' },
-    deleteChannel: { title: 'Удалить канал' },
+    removeChannel: { title: 'Удалить канал' },
   };
+
+  const handleClose = () => dispatch(closeModal());
+
+  if (!modalType || !isShown) {
+    return null;
+  }
 
   const initialValues = {
     channel: optionsBy[modalType].value,
   };
 
-  const handleClose = () => dispatch(closeModal());
-
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(true);
-    const data = { name: values.channel };
-    emitWithPromise(optionsBy[modalType].emit, data);
+
+    if (modalType === 'addChannel') {
+      const data = { name: values.channel };
+      emitWithPromise(optionsBy[modalType].emit, data, closeModal);
+    } else {
+      const data = { name: values.channel, id: selectedChannelId };
+      emitWithPromise(optionsBy[modalType].emit, data, closeModal);
+    }
+
     onSubmitProps.setSubmitting(false);
     handleClose();
   };
-
-  if (!modalType || !isShown) {
-    return null;
-  }
 
   return (
 

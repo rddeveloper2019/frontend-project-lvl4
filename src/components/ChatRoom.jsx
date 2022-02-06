@@ -42,6 +42,7 @@ const ChatRoom = () => {
     }
 
     const data = { body: messageText, channelId: currentChannelId, username: currentUser.username };
+
     emitWithPromise('newMessage', data);
     setMessageText('');
   };

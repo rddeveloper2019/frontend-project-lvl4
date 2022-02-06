@@ -1,18 +1,26 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import {
   Button, Modal,
 } from 'react-bootstrap';
+import useSocketsContext from '../hooks/useSocketsContext.js';
 
 import { closeModal } from '../store/ModalSlice.js';
 import ModalWithForm from './ModalWithForm.jsx';
 
 const ModalComponent = () => {
-  const { isShown, modalType } = useSelector((store) => store.modalstore);
   const dispatch = useDispatch();
+  const { modalstore, chatstore } = useSelector((store) => store);
+  const { selectedChannelId } = chatstore;
+  const { isShown, modalType } = modalstore;
+  const { emitWithPromise } = useSocketsContext();
 
   const handleClose = () => dispatch(closeModal());
+
+  const onHandleDelete = () => {
+    const data = { id: selectedChannelId };
+    emitWithPromise('removeChannel', data, closeModal);
+  };
 
   if (!modalType || !isShown) {
     return null;
@@ -35,7 +43,7 @@ const ModalComponent = () => {
         <Button variant="secondary" onClick={handleClose}>
           Отменить
         </Button>
-        <Button variant="danger" onClick={handleClose}>
+        <Button variant="danger" onClick={onHandleDelete}>
           Удалить
         </Button>
       </Modal.Footer>

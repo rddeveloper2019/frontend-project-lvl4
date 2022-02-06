@@ -65,7 +65,7 @@ const RemovableChannel = (props) => {
           variant="outline-primary"
 
         >
-          <Dropdown.Item onClick={handleShowModal(id, 'deleteChannel')}>Удалить</Dropdown.Item>
+          <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>Удалить</Dropdown.Item>
           <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>Переименовать</Dropdown.Item>
         </DropdownButton>
       </ButtonGroup>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -54,6 +55,28 @@ const chatSlice = createSlice({
       state.channels.push(action.payload);
       state.currentChannelId = action.payload.id;
     },
+    renameChannel: (state, action) => {
+      const updatedChannel = action.payload;
+      state.channels = state.channels.map((c) => {
+        if (c.id === updatedChannel.id) {
+          c.name = updatedChannel.name;
+        }
+        return c;
+      });
+    },
+
+    removeChannel: (state, action) => {
+      const { id } = action.payload;
+      const generalChannel = state.channels.find((c) => c.name === 'general');
+
+      if (state.currentChannelId === generalChannel.id) {
+        state.currentChannelId = generalChannel.id;
+      }
+
+      state.messages = state.messages.filter((msg) => msg.channelId !== id);
+      state.channels = state.channels.filter((c) => c.id !== id);
+      console.log(action.payload);
+    },
   },
 
   extraReducers: {
@@ -81,10 +104,10 @@ const chatSlice = createSlice({
 
 const { reducer } = chatSlice;
 const {
-  setCurrentChannel, addMessage, addChannel, setSelectedChannel,
+  setCurrentChannel, addMessage, addChannel, setSelectedChannel, renameChannel, removeChannel,
 } = chatSlice.actions;
 
 export {
-  setCurrentChannel, initChat, addMessage, addChannel, setSelectedChannel,
+  setCurrentChannel, initChat, addMessage, addChannel, setSelectedChannel, renameChannel, removeChannel,
 };
 export default reducer;
