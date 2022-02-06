@@ -44,6 +44,9 @@ const chatSlice = createSlice({
     addMessage: (state, action) => {
       state.messages.push(action.payload);
     },
+    addChannel: (state, action) => {
+      state.channels.push(action.payload);
+    },
   },
 
   extraReducers: {
@@ -70,7 +73,9 @@ const chatSlice = createSlice({
 });
 
 const { reducer } = chatSlice;
-const { setCurrentChannel, addMessage } = chatSlice.actions;
+const { setCurrentChannel, addMessage, addChannel } = chatSlice.actions;
 
-export { setCurrentChannel, initChat, addMessage };
+export {
+  setCurrentChannel, initChat, addMessage, addChannel,
+};
 export default reducer;

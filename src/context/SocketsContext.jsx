@@ -27,8 +27,19 @@ const SocketsContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    socket.on('connect', () => {
+      setOnSocketError(null);
+    });
+
     socket.on('newMessage', (data) => {
       dispatch(addMessage(data));
+    });
+
+    socket.on('connect_error', () => {
+      setOnSocketError({ message: 'Restoring connection...' });
+      setTimeout(() => {
+        socket.connect();
+      }, 3000);
     });
   }, []);
 

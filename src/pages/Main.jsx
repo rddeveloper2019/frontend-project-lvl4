@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { initChat } from '../store/ChatSlice.js';
 import Channels from '../components/Channels.jsx';
 import ChatRoom from '../components/ChatRoom.jsx';
+import ModalComponent from '../components/Modal.jsx';
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Main = () => {
           </Col>
         </Row>
       </Container>
+      <ModalComponent />
     </div>
   );
 };
