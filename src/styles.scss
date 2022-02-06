@@ -67,7 +67,7 @@ body {
   width: 100%;
   a.logo {
     font-family: 'Permanent Marker', cursive;
-    font-size: 34px;
+    font-size: 30px;
     color: $main-color;
     transform: skewX(-20deg);
     &:hover {
@@ -82,14 +82,13 @@ body {
 }
 
 .settings-tray {
-  padding: 10px 15px;
-  border-radius: 7px;
+  padding: 0 15px;
 }
 
 .pt-50px {
-  padding-top: 55px;
+  padding-top: 70px;
 }
 .chat-content,
 .channels-list {
-  height: calc(100% - 150px);
+  height: calc(100% - 140px);
 }

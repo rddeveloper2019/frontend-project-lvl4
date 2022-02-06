@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
@@ -11,30 +11,33 @@ import ChatContextProvider from './context/ChatContext.jsx';
 import SocketsContextProvider from './context/SocketsContext.jsx';
 import chatStore from './store';
 
-const App = () => (
-  <Provider store={chatStore}>
-    <ChatContextProvider>
-      <SocketsContextProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route
-              index
-              element={(
-                <RequireAuth>
-                  <Main />
-                </RequireAuth>
+const App = async (socket) => (
+
+  <BrowserRouter>
+    <Provider store={chatStore}>
+      <ChatContextProvider>
+        <SocketsContextProvider socket={socket}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route
+                index
+                element={(
+                  <RequireAuth>
+                    <Main />
+                  </RequireAuth>
           )}
-            />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Route>
-        </Routes>
+              />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Route>
+          </Routes>
 
-      </SocketsContextProvider>
+        </SocketsContextProvider>
 
-    </ChatContextProvider>
-  </Provider>
+      </ChatContextProvider>
+    </Provider>
+  </BrowserRouter>
 
 );
 

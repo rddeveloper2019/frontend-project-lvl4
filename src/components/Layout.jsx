@@ -11,7 +11,7 @@ function Layout() {
   const { isAuth, logout } = useChatContext();
   return (
     <>
-      <Navbar expand="lg" className="shadow">
+      <Navbar className="shadow">
         <Container fluid>
           <Navbar.Brand as={Link} to="/" className="logo">
             Hexlet Chat

@@ -1,17 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
-import io from 'socket.io-client';
+
 import { useDispatch } from 'react-redux';
 import {
   addMessage, addChannel, renameChannel, removeChannel,
 } from '../store/ChatSlice';
 
-const socket = io();
-
-console.log(socket);
-
 const SocketsContext = createContext(null);
 
-const SocketsContextProvider = ({ children }) => {
+const SocketsContextProvider = ({ children, socket }) => {
   const dispatch = useDispatch();
   const [onSocketError, setOnSocketError] = useState(null);
 

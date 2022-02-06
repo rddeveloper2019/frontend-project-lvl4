@@ -50,7 +50,7 @@ const ChatRoom = () => {
   return (
     <>
       {onSocketError && <LoadingStatus message={onSocketError.message} />}
-      <div className="settings-tray d-flex justify-content-between align-items-center shadow">
+      <div className="settings-tray d-flex justify-content-between align-items-center border-bottom">
         <div className="w-100 d-flex justify-content-start align-items-center p-0">
           <span className="round d-flex justify-content-center align-items-center ms-2">
             #
