@@ -3,7 +3,7 @@ import {
   Container, Col, Row, Button,
 } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
-import * as yup from 'yup';
+import getValidationSchema from '../services/validationSchemas.js';
 
 function SignUp() {
   const nicknameRef = useRef(null);
@@ -17,22 +17,6 @@ function SignUp() {
     confirmPassword: '',
   };
 
-  const validationSchema = yup.object().shape({
-    nickname: yup
-      .string()
-      .required('Обязательное поле')
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов'),
-    password: yup
-      .string()
-      .required('Обязательное поле')
-      .min(6, 'Не менее 6 символов'),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password'), ''], 'Пароли должны совпадать')
-      .required('Обязательное поле'),
-  });
-
   const onSubmit = (values, onSubmitProps) => {
     console.log('Login Form data: ', values);
     console.log('Login Submit data: ', onSubmitProps);
@@ -44,7 +28,7 @@ function SignUp() {
           <Col className="col text-center  d-flex justify-content-center">
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={getValidationSchema({ nickname: 'standart', password: 'password', confirmPassword: 'confirmPassword' })}
               validateOnBlur
               validateOnChange
               onSubmit={onSubmit}

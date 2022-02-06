@@ -8,6 +8,7 @@ import {
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/ChatSlice.js';
+import { showModal } from '../store/ModalSlice.js';
 import Channel from './Channel.jsx';
 import LoadingStatus from './LoadingStatus.jsx';
 
@@ -22,6 +23,13 @@ const Channels = () => {
   const handleOnClick = (id) => () => {
     dispatch(setCurrentChannel({ id }));
   };
+
+  const handleShowModal = (id, modalType) => () => {
+    console.log(id);
+    console.log(modalType);
+    dispatch(showModal(modalType));
+  };
+
   const handleRename = (id) => () => {
     console.log('rename ', id);
   };
@@ -41,10 +49,11 @@ const Channels = () => {
               <Button
                 variant="outline-primary"
                 className="channel-button py-3"
+                onClick={() => dispatch(showModal('addChannel'))}
               >
                 <span className="round me-2">+</span>
                 {' '}
-                <span>Add channel</span>
+                <span>Каналы</span>
               </Button>
             </ButtonGroup>
           </ListGroup.Item>
@@ -58,7 +67,7 @@ const Channels = () => {
 
               {channels.map((channel) => {
                 const active = channel.id === currentChannelId;
-                return <Channel key={channel.id} {...channel} active={active} handleOnClick={handleOnClick} />;
+                return <Channel key={channel.id} {...channel} active={active} handleOnClick={handleOnClick} handleShowModal={handleShowModal} />;
               })}
 
             </ListGroup>

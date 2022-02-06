@@ -39,7 +39,7 @@ const DefaultChannel = (props) => {
 
 const RemovableChannel = (props) => {
   const {
-    id, name, handleOnClick, active,
+    id, name, handleOnClick, active, handleShowModal,
   } = props;
   let classes = 'channel-button';
   if (active) {
@@ -65,8 +65,8 @@ const RemovableChannel = (props) => {
           variant="outline-primary"
 
         >
-          <Dropdown.Item>Удалить</Dropdown.Item>
-          <Dropdown.Item>Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={handleShowModal(id, 'deleteChannel')}>Удалить</Dropdown.Item>
+          <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>Переименовать</Dropdown.Item>
         </DropdownButton>
       </ButtonGroup>
     </ListGroup.Item>

@@ -5,8 +5,7 @@ import {
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import * as yup from 'yup';
-
+import getValidationSchema from '../services/validationSchemas.js';
 import useChatContext from '../hooks/useChatContext.js';
 
 function Login() {
@@ -23,18 +22,6 @@ function Login() {
     password: '',
   };
 
-  const validationSchema = yup.object().shape({
-    nickname: yup
-      .string()
-      .required('Обязательное поле')
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов'),
-    password: yup
-      .string()
-      .required('Обязательное поле')
-      .min(5, 'Не менее 5 символов'),
-  });
-
   const onSubmit = async (values, onSubmitProps) => {
     try {
       const user = { username: values.nickname, password: values.password };
@@ -43,7 +30,6 @@ function Login() {
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
-      console.log(error.message);
       const message = identifyError(error.message);
 
       onSubmitProps.setErrors({
@@ -61,7 +47,7 @@ function Login() {
           <Col className="col text-center  d-flex justify-content-center">
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={getValidationSchema({ nickname: 'standart', password: 'password' })}
               // validateOnBlur
               validateOnChange
               validateOnSubmit
