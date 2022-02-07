@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import tokenServices from '../services/tokenServices.js';
 
 const { setTokenToLocal, getTokenFromLocal, removeToken } = tokenServices;
@@ -6,22 +7,19 @@ const { setTokenToLocal, getTokenFromLocal, removeToken } = tokenServices;
 const ChatContext = createContext(null);
 
 const ChatContextProvider = ({ children }) => {
+  const { t } = useTranslation();
   const [currentUser, setCurrentUser] = useState(null);
-  const [onLoginError, setOnLoginError] = useState('');
 
   const identifyError = (code) => {
     switch (code) {
       case 401: {
-        setOnLoginError('Неверные имя пользователя или пароль');
-        return 'Неверные имя пользователя или пароль';
+        return t('fetchErrors.unauthorized');
       }
       case 409: {
-        setOnLoginError('Такой пользователь уже существует');
-        return 'Такой пользователь уже существует';
+        return t('fetchErrors.conflict');
       }
       default: {
-        setOnLoginError('Ошибка сервера');
-        return 'Ошибка сервера';
+        return t('fetchErrors.default');
       }
     }
   };
@@ -57,7 +55,6 @@ const ChatContextProvider = ({ children }) => {
         isAuth,
         logout,
         identifyError,
-        onLoginError,
         initUserName,
       }}
     >

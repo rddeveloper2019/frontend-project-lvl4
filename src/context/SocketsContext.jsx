@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
-
 import { useDispatch } from 'react-redux';
+
 import {
   addMessage, addChannel, renameChannel, removeChannel,
 } from '../store/ChatSlice';
@@ -16,14 +16,14 @@ const SocketsContextProvider = ({ children, socket }) => {
     try {
       await socket.emit(event, data, ({ status }) => {
         if (status !== 'ok') {
-          setOnSocketError({ message: 'Connection Error!' });
+          setOnSocketError('sockets.error');
         }
         if (cb) {
           dispatch(cb());
         }
       });
     } catch (error) {
-      setOnSocketError({ message: error.message });
+      setOnSocketError(error.message);
       if (cb) {
         dispatch(cb());
       }
@@ -50,10 +50,10 @@ const SocketsContextProvider = ({ children, socket }) => {
     });
 
     socket.on('connect_error', () => {
-      setOnSocketError({ message: 'Restoring connection...' });
+      setOnSocketError('sockets.reconnect');
       setTimeout(() => {
         socket.connect();
-      }, 3000);
+      }, 5000);
     });
   }, []);
 

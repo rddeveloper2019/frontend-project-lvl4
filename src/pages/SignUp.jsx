@@ -5,10 +5,14 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import getValidationSchema from '../services/validationSchemas.js';
 import useChatContext from '../hooks/useChatContext.js';
+import pathes from '../routes.js';
 
 function SignUp() {
+  const { t } = useTranslation();
+
   const { login, identifyError } = useChatContext();
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
@@ -26,7 +30,7 @@ function SignUp() {
     onSubmitProps.setSubmitting(true);
     try {
       const user = { username: values.nickname, password: values.password };
-      const res = await axios.post('/api/v1/signup', user);
+      const res = await axios.post(pathes.signupPath(), user);
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
       navigate('/');
@@ -49,13 +53,12 @@ function SignUp() {
           <Col className="col text-center  d-flex justify-content-center">
             <Formik
               initialValues={initialValues}
-              validationSchema={getValidationSchema(['nickname', 'password', 'confirmPassword'])}
+              validationSchema={getValidationSchema(['nickname', 'password', 'confirmPassword'], { flag: 'reg' })}
               validateOnBlur
               validateOnChange
               onSubmit={onSubmit}
             >
               {(formik) => {
-                console.log(formik);
                 const {
                   errors, touched, handleChange, isSubmitting,
                 } = formik;
@@ -65,14 +68,14 @@ function SignUp() {
                 };
                 return (
                   <Form className="p-3 rounded shadow">
-                    <p className="my-1 main-color text-uppercase">Войти</p>
+                    <p className="my-1 main-color text-uppercase">{t('signup.title')}</p>
                     <Field name="nickname">
                       {() => (
                         <div className="mb-2 position-relative">
                           <input
                             id="nickname"
                             className={getValidClass('nickname')}
-                            placeholder="Ваш ник"
+                            placeholder={t('signup.nickname_placeholder')}
                             onChange={handleChange}
                             required
                             ref={nicknameRef}
@@ -93,7 +96,7 @@ function SignUp() {
                             id="password"
                             type="password"
                             className={getValidClass('password')}
-                            placeholder="Пароль"
+                            placeholder={t('signup.pass_placeholder')}
                             onChange={handleChange}
                             required
 
@@ -114,7 +117,7 @@ function SignUp() {
                             id="confirmPassword"
                             type="password"
                             className={getValidClass('confirmPassword')}
-                            placeholder="Подтвердите пароль"
+                            placeholder={t('signup.confirm_pass_placeholder')}
                             onChange={handleChange}
                             required
 
@@ -134,7 +137,7 @@ function SignUp() {
                       className="w-100 main-button shadow"
                       disabled={isSubmitting}
                     >
-                      Зарегистрироваться
+                      {t('signup.submit')}
                     </Button>
 
                   </Form>

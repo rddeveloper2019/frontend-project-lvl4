@@ -18,7 +18,7 @@ const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue
     );
 
     if (response.status !== 200) {
-      throw new Error('Server Error!');
+      throw new Error('Network Error');
     }
 
     return response.data;

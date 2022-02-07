@@ -5,9 +5,12 @@ import {
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { useTranslation } from 'react-i18next';
 import useChatContext from '../hooks/useChatContext.js';
+import pathes from '../routes.js';
 
 function Login() {
+  const { t } = useTranslation();
   const { login, identifyError } = useChatContext();
 
   const navigate = useNavigate();
@@ -27,7 +30,7 @@ function Login() {
     try {
       const user = { username: values.nickname, password: values.password };
 
-      const res = await axios.post('/api/v1/login', user);
+      const res = await axios.post(pathes.loginPath(), user);
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
       navigate('/');
@@ -70,14 +73,14 @@ function Login() {
 
                 return (
                   <Form className="p-3 rounded shadow">
-                    <p className="my-1 main-color text-uppercase">Войти</p>
+                    <p className="my-1 main-color text-uppercase">{t('login.title')}</p>
                     <Field name="nickname">
                       {() => (
                         <div className="mb-2 position-relative">
                           <input
                             id="nickname"
                             className={getValidClass('nickname')}
-                            placeholder="Ваш ник"
+                            placeholder={t('login.nickname_placeholder')}
                             onChange={handleChange}
                             required
                             ref={nicknameRef}
@@ -98,7 +101,7 @@ function Login() {
                             id="password"
                             type="password"
                             className={getValidClass('password')}
-                            placeholder="Пароль"
+                            placeholder={t('login.pass_placeholder')}
                             onChange={handleChange}
                             required
                           />
@@ -117,7 +120,7 @@ function Login() {
                       className="w-100 main-button shadow"
                       disabled={isSubmitting}
                     >
-                      Войти
+                      {t('login.submit')}
                     </Button>
                   </Form>
                 );
@@ -128,11 +131,11 @@ function Login() {
         <Row>
           <Col className="col text-center  d-flex justify-content-center my-2">
             <div className="p-2 w-50 shadow rounded text-white fw-bold ">
-              Нет аккаунта?
+              {t('login.footer.descr')}
               {'  '}
               <Link to="/signup" className="main-color fw-bold ">
                 {' '}
-                Регистрация
+                {t('login.footer.registr_link')}
               </Link>
             </div>
           </Col>

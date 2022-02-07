@@ -10,6 +10,7 @@ import {
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const DefaultChannel = (props) => {
   const {
@@ -38,6 +39,7 @@ const DefaultChannel = (props) => {
 };
 
 const RemovableChannel = (props) => {
+  const { t } = useTranslation();
   const {
     id, name, handleOnClick, active, handleShowModal,
   } = props;
@@ -65,8 +67,8 @@ const RemovableChannel = (props) => {
           variant="outline-primary"
 
         >
-          <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>Удалить</Dropdown.Item>
-          <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>{t('channels.dropdown.remove')}</Dropdown.Item>
+          <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>{t('channels.dropdown.rename')}</Dropdown.Item>
         </DropdownButton>
       </ButtonGroup>
     </ListGroup.Item>

@@ -1,21 +1,22 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import {
   Button,
-  ListGroup, Spinner, ButtonGroup, Row,
+  ListGroup, ButtonGroup, Row,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannel, setSelectedChannel } from '../store/ChatSlice.js';
 import { showModal } from '../store/ModalSlice.js';
 import Channel from './Channel.jsx';
 import LoadingStatus from './LoadingStatus.jsx';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const {
     channels, channelsFetchState,
-    channelsFetchError, currentChannelId, selectedChannelId,
+    channelsFetchError, currentChannelId,
   } = useSelector((store) => store.chatstore);
 
   const dispatch = useDispatch();
@@ -25,19 +26,8 @@ const Channels = () => {
   };
 
   const handleShowModal = (id, modalType) => () => {
-    console.log(id);
-    console.log(modalType);
     dispatch(setSelectedChannel(id));
     dispatch(showModal(modalType));
-  };
-
-  const handleRename = (id) => () => {
-    console.log('rename ', id);
-    dispatch(setSelectedChannel(id));
-  };
-  const handleDelete = (id) => () => {
-    console.log('delete ', id);
-    dispatch(setSelectedChannel(id));
   };
 
   return (
@@ -45,8 +35,8 @@ const Channels = () => {
 
       <div className="channels-list">
         <ListGroup>
-          {channelsFetchState === 'loading' && <LoadingStatus message="Loading..." />}
-          {channelsFetchState === 'rejected' && <LoadingStatus message={channelsFetchError} />}
+          {channelsFetchState === 'loading' && <LoadingStatus message={t(`fetchErrors.${channelsFetchState}`)} />}
+          {channelsFetchState === 'rejected' && <LoadingStatus message={t(`fetchErrors.${channelsFetchError}`)} />}
           <ListGroup.Item className="list-group-item bg-transparent border-0 ">
             <ButtonGroup className="w-100">
               <Button
@@ -56,7 +46,7 @@ const Channels = () => {
               >
                 <span className="round me-2">+</span>
                 {' '}
-                <span>Каналы</span>
+                <span>{t('channels.channels')}</span>
               </Button>
             </ButtonGroup>
           </ListGroup.Item>

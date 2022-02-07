@@ -5,10 +5,12 @@ import {
 import {
   Container, Navbar, Nav,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import useChatContext from '../hooks/useChatContext.js';
 
 function Layout() {
   const { isAuth, logout } = useChatContext();
+  const { t } = useTranslation();
   return (
     <>
       <Navbar className="shadow">
@@ -20,7 +22,7 @@ function Layout() {
 
             {isAuth() && (
               <Link to="/" className="btn btn-outline-primary main-link shadow" onClick={logout}>
-                Выйти
+                {t('layout.buttons.exit')}
               </Link>
             )}
           </Nav>
