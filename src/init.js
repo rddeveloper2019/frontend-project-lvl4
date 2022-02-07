@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import dictionary from './services/locales.js';

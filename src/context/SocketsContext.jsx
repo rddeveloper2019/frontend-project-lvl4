@@ -16,30 +16,11 @@ const SocketsContextProvider = ({ children, socket }) => {
       if (status !== 'ok') {
         throw new Error('sockets.error');
       }
+      if (cb) {
+        cb();
+      }
     });
-    if (cb) {
-      cb();
-    }
   };
-
-  // const emitWithPromise = async (event, data, cb = null) => {
-  //   setOnSocketError(null);
-  //   try {
-  //     await socket.emit(event, data, ({ status }) => {
-  //       if (status !== 'ok') {
-  //         setOnSocketError('sockets.error');
-  //       }
-  //       if (cb) {
-  //         cb();
-  //       }
-  //     });
-  //   } catch (error) {
-  //     setOnSocketError(error.message);
-  //     if (cb) {
-  //       cb();
-  //     }
-  //   }
-  // };
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -47,6 +28,9 @@ const SocketsContextProvider = ({ children, socket }) => {
     });
 
     socket.on('newMessage', (data) => {
+      if (!data) {
+        console.log('achtung!');
+      }
       dispatch(addMessage(data));
     });
     socket.on('newChannel', (data) => {

@@ -2,10 +2,21 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import filter from 'leo-profanity';
 import tokenServices from '../services/tokenServices.js';
 import pathes from '../routes.js';
 
 const { getTokenFromLocal } = tokenServices;
+
+filter.add(filter.getDictionary('ru'));
+const getCleaned = (data) => {
+  const { name } = data;
+  if (name) {
+    return { ...data, name: filter.clean(data.name) };
+  }
+
+  return { ...data, body: filter.clean(data.body) };
+};
 
 const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue }) => {
   try {
@@ -48,15 +59,15 @@ const chatSlice = createSlice({
       state.selectedChannelId = action.payload;
     },
     addMessage: (state, action) => {
-      state.messages.push(action.payload);
+      state.messages.push(getCleaned(action.payload));
     },
     addChannel: (state, action) => {
       console.log('addChannel slice: ', action.payload);
-      state.channels.push(action.payload);
+      state.channels.push(getCleaned(action.payload));
       state.currentChannelId = action.payload.id;
     },
     renameChannel: (state, action) => {
-      const updatedChannel = action.payload;
+      const updatedChannel = getCleaned(action.payload);
       state.channels = state.channels.map((c) => {
         if (c.id === updatedChannel.id) {
           c.name = updatedChannel.name;
@@ -87,9 +98,9 @@ const chatSlice = createSlice({
 
     [initChat.fulfilled]: (state, action) => {
       const { channels, currentChannelId, messages } = action.payload;
-      state.channels = channels;
+      state.channels = channels.map(getCleaned);
       state.currentChannelId = currentChannelId;
-      state.messages = messages;
+      state.messages = messages.map(getCleaned);
       state.channelsFetchState = 'resolved';
       state.channelsFetchError = null;
     },
