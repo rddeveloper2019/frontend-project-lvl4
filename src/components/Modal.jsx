@@ -9,13 +9,13 @@ import useSocketsContext from '../hooks/useSocketsContext.js';
 import { closeModal } from '../store/ModalSlice.js';
 import getValidationSchema from '../services/validationSchemas.js';
 
-const ModalWithForm = () => {
+const ModalComponent = ({ notify }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modalstore, chatstore } = useSelector((store) => store);
   const { selectedChannelId, channels } = chatstore;
   const { isShown, modalType } = modalstore;
-  const { emitWithPromise } = useSocketsContext();
+  const { emitWithPromise, setOnSocketError } = useSocketsContext();
 
   const channelRef = useRef(null);
 
@@ -39,54 +39,63 @@ const ModalWithForm = () => {
 
   const handleClose = () => dispatch(closeModal());
 
-  const handleDelete = () => {
-    const data = { id: selectedChannelId };
-    emitWithPromise(optionsBy[modalType].emit, data, closeModal);
-  };
-
   const onSubmit = (values, onSubmitProps) => {
+    const data = { id: selectedChannelId };
     onSubmitProps.setSubmitting(true);
 
-    if (modalType === 'addChannel') {
-      const data = { name: values.channel };
-      emitWithPromise(optionsBy[modalType].emit, data, closeModal);
-    } else {
-      const data = { name: values.channel, id: selectedChannelId };
-      emitWithPromise(optionsBy[modalType].emit, data, closeModal);
+    if (modalType === 'renameChannel' || modalType === 'addChannel') {
+      data.name = values.channel;
     }
 
-    onSubmitProps.setSubmitting(false);
-    handleClose();
+    try {
+      emitWithPromise(optionsBy[modalType].emit, data);
+      notify(t(`toast.${modalType}`), 'success');
+    } catch (error) {
+      setOnSocketError(error.message);
+    } finally {
+      onSubmitProps.setSubmitting(false);
+      handleClose();
+    }
   };
 
   if (!modalType || !isShown) {
     return null;
   }
 
-  const initialValues = {
-    channel: optionsBy[modalType].value,
-  };
-
   if (modalType === 'removeChannel') {
     return (
 
       <Modal show={isShown} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{t(optionsBy[modalType].title)}</Modal.Title>
+          <Modal.Title>
+            {t(optionsBy[modalType].title)}
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {t(optionsBy[modalType].body)}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            {t('modal.buttons.cancel')}
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            {t('modal.buttons.remove')}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <Formik
+          onSubmit={onSubmit}
+          initialValues={{ id: selectedChannelId }}
+        >
+          {(formik) => {
+            const { isSubmitting } = formik;
+            return (
+              <Form>
+                <Modal.Body>
+                  {t(optionsBy[modalType].body)}
 
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    {t('modal.buttons.cancel')}
+                  </Button>
+                  <Button variant="danger" disabled={isSubmitting} type="submit">
+                    {t('modal.buttons.remove')}
+                  </Button>
+                </Modal.Footer>
+              </Form>
+            );
+          } }
+        </Formik>
+      </Modal>
     );
   }
 
@@ -99,7 +108,7 @@ const ModalWithForm = () => {
         </Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={initialValues}
+        initialValues={{ channel: optionsBy[modalType].value }}
         validationSchema={getValidationSchema(['channel'], { array: channels.map((item) => item.name) })}
         validateOnSubmit
         validateOnChange
@@ -111,6 +120,7 @@ const ModalWithForm = () => {
             touched,
             handleChange,
             values,
+            isSubmitting,
           } = formik;
 
           const getValidClass = (name) => {
@@ -136,7 +146,7 @@ const ModalWithForm = () => {
                       />
                       { errors.channel && (
                       <div className="invalid-tooltip">
-                        {errors.channel}
+                        {t(errors.channel)}
                       </div>
                       )}
                     </div>
@@ -150,6 +160,7 @@ const ModalWithForm = () => {
                 <Button
                   variant="outline-primary"
                   type="submit"
+                  disabled={isSubmitting}
                 >
                   {t('modal.buttons.send')}
                 </Button>
@@ -163,4 +174,4 @@ const ModalWithForm = () => {
   );
 };
 
-export default ModalWithForm;
+export default ModalComponent;

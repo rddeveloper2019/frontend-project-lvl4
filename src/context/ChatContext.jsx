@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import tokenServices from '../services/tokenServices.js';
 
 const { setTokenToLocal, getTokenFromLocal, removeToken } = tokenServices;
@@ -7,19 +6,18 @@ const { setTokenToLocal, getTokenFromLocal, removeToken } = tokenServices;
 const ChatContext = createContext(null);
 
 const ChatContextProvider = ({ children }) => {
-  const { t } = useTranslation();
   const [currentUser, setCurrentUser] = useState(null);
 
   const identifyError = (code) => {
     switch (code) {
       case 401: {
-        return t('fetchErrors.unauthorized');
+        return 'fetchErrors.unauthorized';
       }
       case 409: {
-        return t('fetchErrors.conflict');
+        return 'fetchErrors.conflict';
       }
       default: {
-        return t('fetchErrors.default');
+        return 'fetchErrors.default';
       }
     }
   };
@@ -59,6 +57,7 @@ const ChatContextProvider = ({ children }) => {
       }}
     >
       {children}
+
     </ChatContext.Provider>
   );
 };

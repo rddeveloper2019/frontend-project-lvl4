@@ -10,7 +10,7 @@ import getValidationSchema from '../services/validationSchemas.js';
 import useChatContext from '../hooks/useChatContext.js';
 import pathes from '../routes.js';
 
-function SignUp() {
+function SignUp({ notify }) {
   const { t } = useTranslation();
 
   const { login, identifyError } = useChatContext();
@@ -36,7 +36,9 @@ function SignUp() {
       navigate('/');
     } catch (error) {
       const { response } = error;
-      console.log(error.response);
+      if (!response) {
+        notify(t(`toast.${error.message}`), 'error');
+      }
       onSubmitProps.setErrors({
         confirmPassword: identifyError(+response.status),
         password: 'no-message',
@@ -82,7 +84,7 @@ function SignUp() {
                           />
                           {errors.nickname !== 'no-message' && errors.nickname && (
                             <div className="invalid-tooltip">
-                              {errors.nickname}
+                              {t(errors.nickname)}
                             </div>
                           )}
                         </div>
@@ -103,7 +105,7 @@ function SignUp() {
                           />
                           {errors.password !== 'no-message' && errors.password && (
                             <div className="invalid-tooltip">
-                              {errors.password}
+                              {t(errors.password)}
                             </div>
                           )}
                         </div>
@@ -124,7 +126,7 @@ function SignUp() {
                           />
                           {errors.confirmPassword && (
                             <div className="invalid-tooltip">
-                              {errors.confirmPassword}
+                              {t(errors.confirmPassword)}
                             </div>
                           )}
                         </div>

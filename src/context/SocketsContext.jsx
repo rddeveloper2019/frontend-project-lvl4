@@ -12,23 +12,34 @@ const SocketsContextProvider = ({ children, socket }) => {
   const [onSocketError, setOnSocketError] = useState(null);
 
   const emitWithPromise = async (event, data, cb = null) => {
-    setOnSocketError(null);
-    try {
-      await socket.emit(event, data, ({ status }) => {
-        if (status !== 'ok') {
-          setOnSocketError('sockets.error');
-        }
-        if (cb) {
-          dispatch(cb());
-        }
-      });
-    } catch (error) {
-      setOnSocketError(error.message);
-      if (cb) {
-        dispatch(cb());
+    await socket.emit(event, data, ({ status }) => {
+      if (status !== 'ok') {
+        throw new Error('sockets.error');
       }
+    });
+    if (cb) {
+      cb();
     }
   };
+
+  // const emitWithPromise = async (event, data, cb = null) => {
+  //   setOnSocketError(null);
+  //   try {
+  //     await socket.emit(event, data, ({ status }) => {
+  //       if (status !== 'ok') {
+  //         setOnSocketError('sockets.error');
+  //       }
+  //       if (cb) {
+  //         cb();
+  //       }
+  //     });
+  //   } catch (error) {
+  //     setOnSocketError(error.message);
+  //     if (cb) {
+  //       cb();
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -57,7 +68,9 @@ const SocketsContextProvider = ({ children, socket }) => {
     });
   }, []);
 
-  const value = { socket, emitWithPromise, onSocketError };
+  const value = {
+    socket, emitWithPromise, onSocketError, setOnSocketError,
+  };
 
   return (<SocketsContext.Provider value={value}>{children}</SocketsContext.Provider>);
 };

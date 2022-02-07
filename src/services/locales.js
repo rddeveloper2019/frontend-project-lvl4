@@ -1,6 +1,3 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-
 const dictionary = {
   ru: {
     translation: {
@@ -79,19 +76,15 @@ const dictionary = {
         reconnect: 'Восстанавливается соединенние...',
         error: 'Ошибка соединения',
       },
+      toast: {
+        'Network Error': 'Ошибка соединения',
+        removeChannel: 'Канал удалён',
+        addChannel: 'Канал создан',
+        renameChannel: 'Канал переименован',
+      },
     },
   },
 
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: dictionary,
-    lng: 'ru',
-    interpolation: {
-      escapeValue: false,
-    },
-  });
-
-export default i18n;
+export default dictionary;

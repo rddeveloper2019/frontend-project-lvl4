@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import useChatContext from '../hooks/useChatContext.js';
 import pathes from '../routes.js';
 
-function Login() {
+function Login({ notify }) {
   const { t } = useTranslation();
   const { login, identifyError } = useChatContext();
 
@@ -29,14 +29,16 @@ function Login() {
 
     try {
       const user = { username: values.nickname, password: values.password };
-
       const res = await axios.post(pathes.loginPath(), user);
+
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
       const { response } = error;
-      console.log(error.response);
+      if (!response) {
+        notify(t(`toast.${error.message}`), 'error');
+      }
       onSubmitProps.setErrors({
         password: identifyError(+response.status),
         nickname: 'no-message',
@@ -88,7 +90,7 @@ function Login() {
                           {errors.nickname !== 'no-message'
                             && errors.nickname && (
                               <div className="invalid-tooltip">
-                                {errors.nickname}
+                                {t(errors.nickname)}
                               </div>
                           )}
                         </div>
@@ -107,7 +109,7 @@ function Login() {
                           />
                           {errors.password && (
                             <div className="invalid-tooltip">
-                              {errors.password}
+                              {t(errors.password)}
                             </div>
                           )}
                         </div>
