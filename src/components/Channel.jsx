@@ -6,7 +6,6 @@ import {
   ListGroup,
   ButtonGroup,
   Dropdown,
-  DropdownButton,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
@@ -54,15 +53,16 @@ const RemovableChannel = (props) => {
           {name}
         </Button>
 
-        <DropdownButton
-          as={ButtonGroup}
-          title=""
-          variant="outline-primary"
-        >
-          <span className="visually-hidden">{t('channels.channel_control')}</span>
-          <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>{t('channels.dropdown.remove')}</Dropdown.Item>
-          <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>{t('channels.dropdown.rename')}</Dropdown.Item>
-        </DropdownButton>
+        <Dropdown as={ButtonGroup}>
+          <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
+            <span className="visually-hidden">{t('channels.channel_control')}</span>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>{t('channels.dropdown.remove')}</Dropdown.Item>
+            <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>{t('channels.dropdown.rename')}</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </ButtonGroup>
     </ListGroup.Item>
   );

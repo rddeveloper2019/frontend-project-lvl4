@@ -48,7 +48,7 @@ const Channels = () => {
               <span>{t('channels.channels')}</span>
               <Button
                 variant="outline-primary"
-                className="channel-button py-2 "
+                className="py-2 "
                 onClick={() => dispatch(showModal('addChannel'))}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
