@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Outlet, Link,
+  Outlet, Link, useNavigate,
 } from 'react-router-dom';
 import {
   Container, Navbar, Nav,
@@ -11,6 +11,12 @@ import useChatContext from '../hooks/useChatContext.js';
 function Layout() {
   const { isAuth, logout } = useChatContext();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleExit = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <>
@@ -22,7 +28,7 @@ function Layout() {
           <Nav className="ms-auto">
 
             {isAuth() && (
-              <Link to="/" className="btn btn-outline-primary main-link shadow" onClick={logout}>
+              <Link to="/" className="btn btn-outline-primary shadow" onClick={handleExit}>
                 {t('layout.buttons.exit')}
               </Link>
             )}

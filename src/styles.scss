@@ -50,18 +50,6 @@ body {
   align-items: center;
 }
 
-//!
-
-.main-link {
-  color: #fff !important;
-  border: $main-color 1px solid !important;
-  background-color: $main-color !important;
-  padding: 0.375rem 0.75rem !important;
-  &:hover {
-    color: $main-color !important;
-    background-color: transparent !important;
-  }
-}
 .navbar {
   position: absolute;
   width: 100%;

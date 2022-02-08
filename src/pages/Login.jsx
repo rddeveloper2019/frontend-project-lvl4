@@ -30,7 +30,6 @@ function Login({ notify }) {
     try {
       const user = { username: values.nickname, password: values.password };
       const res = await axios.post(pathes.loginPath(), user);
-
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
       navigate('/');

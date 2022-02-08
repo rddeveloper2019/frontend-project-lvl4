@@ -39,6 +39,7 @@ const dictionary = {
       channels: {
         channels: 'Каналы',
         channel_control: 'Упарвление каналом',
+        add_button: '+',
         dropdown: {
           remove: 'Удалить',
           rename: 'Переименовать',
