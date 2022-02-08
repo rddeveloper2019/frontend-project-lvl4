@@ -17,6 +17,7 @@ const SocketsContextProvider = ({ children, socket }) => {
     try {
       await socket.emit(event, data, ({ status }) => {
         if (status !== 'ok') {
+          console.log('**** status **** ', status);
           throw new Error(errorMessage);
         }
         if (cb) {
@@ -46,6 +47,11 @@ const SocketsContextProvider = ({ children, socket }) => {
     });
     socket.on('removeChannel', (data) => {
       dispatch(removeChannel(data));
+    });
+
+    socket.on('connect_failed', (data) => {
+      console.log('*** connection failed data: ****', data);
+      notify(t('toast.network_error'), 'error');
     });
 
     socket.on('connect_error', () => {

@@ -1,6 +1,7 @@
 import { ToastContainer, toast } from 'react-toastify';
 
 export const notify = (msg, type) => {
+  console.log('***toast msg***: ', msg);
   const typesMap = {
     success: toast.TYPE.SUCCESS,
     error: toast.TYPE.ERROR,
