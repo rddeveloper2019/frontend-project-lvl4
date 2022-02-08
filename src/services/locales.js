@@ -63,6 +63,10 @@ const dictionary = {
         pass_placeholder: 'Пароль',
         confirm_pass_placeholder: 'Подтвердите пароль',
       },
+      not_found: {
+        page_not_found: 'Страница не найдена',
+      },
+
       validation: {
         required: 'Обязательное поле',
         range_of_symbols: 'От 3 до 20 символов',

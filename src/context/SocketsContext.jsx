@@ -25,7 +25,7 @@ const SocketsContextProvider = ({ children, socket }) => {
       });
     } catch (error) {
       console.log('****socket errors****: ', error.message);
-      notify(t(`toast.${error.message}`), 'error');
+      notify(t('toast.network_error'), 'error');
     }
   };
 
