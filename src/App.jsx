@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Main from './pages/Main.jsx';
@@ -26,34 +27,48 @@ const notify = (msg, type) => {
   toast(msg, options);
 };
 
+const rollbarConfig = {
+  accessToken: process.env.ROLLBAR_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  payload: {
+    environment: 'production',
+  },
+};
+
 const App = async (socket) => (
+  <RollbarProvider config={rollbarConfig}>
+    <ErrorBoundary>
 
-  <BrowserRouter>
-    <Provider store={chatStore}>
-      <ChatContextProvider>
-        <SocketsContextProvider socket={socket}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route
-                index
-                element={(
-                  <RequireAuth>
-                    <Main />
-                  </RequireAuth>
+      <BrowserRouter>
+        <Provider store={chatStore}>
+          <ChatContextProvider>
+            <SocketsContextProvider socket={socket}>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route
+                    index
+                    element={(
+                      <RequireAuth>
+                        <Main />
+                      </RequireAuth>
           )}
-              />
-              <Route path="login" element={<Login notify={notify} />} />
-              <Route path="signup" element={<SignUp notify={notify} />} />
-              <Route path="*" element={<PageNotFound />} />
-            </Route>
-          </Routes>
-          <ToastContainer />
-          <ModalComponent notify={notify} />
-        </SocketsContextProvider>
+                  />
+                  <Route path="login" element={<Login notify={notify} />} />
+                  <Route path="signup" element={<SignUp notify={notify} />} />
+                  <Route path="*" element={<PageNotFound />} />
+                </Route>
+              </Routes>
+              <ToastContainer />
+              <ModalComponent notify={notify} />
+            </SocketsContextProvider>
 
-      </ChatContextProvider>
-    </Provider>
-  </BrowserRouter>
+          </ChatContextProvider>
+        </Provider>
+      </BrowserRouter>
+
+    </ErrorBoundary>
+  </RollbarProvider>
 
 );
 
