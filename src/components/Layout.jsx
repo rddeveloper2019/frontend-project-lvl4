@@ -11,6 +11,7 @@ import useChatContext from '../hooks/useChatContext.js';
 function Layout() {
   const { isAuth, logout } = useChatContext();
   const { t } = useTranslation();
+
   return (
     <>
       <Navbar className="shadow">

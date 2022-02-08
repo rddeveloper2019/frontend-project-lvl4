@@ -82,7 +82,7 @@ function SignUp({ notify }) {
                             required
                             ref={nicknameRef}
                           />
-                          <BootstrapForm.Label className="visually-hidden" htmlFor="nickname">{t('login.nickname_placeholder')}</BootstrapForm.Label>
+                          <BootstrapForm.Label className="visually-hidden" htmlFor="nickname">{t('singup.nickname_placeholder')}</BootstrapForm.Label>
                           {errors.nickname !== 'no-message' && errors.nickname && (
                             <div className="invalid-tooltip">
                               {t(errors.nickname)}
