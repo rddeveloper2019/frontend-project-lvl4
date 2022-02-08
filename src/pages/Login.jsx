@@ -8,8 +8,9 @@ import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import useChatContext from '../hooks/useChatContext.js';
 import pathes from '../routes.js';
+import { notify } from '../services/toastify.js';
 
-function Login({ notify }) {
+function Login() {
   const { t } = useTranslation();
   const { login, identifyError } = useChatContext();
 

@@ -9,8 +9,9 @@ import { useTranslation } from 'react-i18next';
 import getValidationSchema from '../services/validationSchemas.js';
 import useChatContext from '../hooks/useChatContext.js';
 import pathes from '../routes.js';
+import { notify } from '../services/toastify.js';
 
-function SignUp({ notify }) {
+function SignUp() {
   const { t } = useTranslation();
 
   const { login, identifyError } = useChatContext();

@@ -40,8 +40,7 @@ const ChatRoom = () => {
       setMessageText('');
     }
   };
-  console.log(currentMessages);
-  console.log(currentUser);
+
   return (
     <>
       {onSocketError && <LoadingStatus message={t(onSocketError)} />}

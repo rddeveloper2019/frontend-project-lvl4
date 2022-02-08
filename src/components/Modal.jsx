@@ -8,8 +8,9 @@ import { useTranslation } from 'react-i18next';
 import useSocketsContext from '../hooks/useSocketsContext.js';
 import { closeModal } from '../store/ModalSlice.js';
 import getValidationSchema from '../services/validationSchemas.js';
+import { notify } from '../services/toastify.js';
 
-const ModalComponent = ({ notify }) => {
+const ModalComponent = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modalstore, chatstore } = useSelector((store) => store);
@@ -46,15 +47,13 @@ const ModalComponent = ({ notify }) => {
     if (modalType === 'renameChannel' || modalType === 'addChannel') {
       data.name = values.channel;
     }
-    if (modalType === 'removeChannel') {
-      console.log('modal');
-    }
 
     try {
       emitWithPromise(optionsBy[modalType].emit, data);
       notify(t(`toast.${modalType}`), 'success');
     } catch (error) {
       setOnSocketError(error.message);
+      notify(t('toast.Network Error'), 'error');
     } finally {
       onSubmitProps.setSubmitting(false);
       handleClose();

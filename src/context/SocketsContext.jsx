@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
+import { useTranslation } from 'react-i18next';
+import { notify } from '../services/toastify.js';
 import {
   addMessage, addChannel, renameChannel, removeChannel,
 } from '../store/ChatSlice';
@@ -8,18 +9,23 @@ import {
 const SocketsContext = createContext(null);
 
 const SocketsContextProvider = ({ children, socket }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [onSocketError, setOnSocketError] = useState(null);
 
   const emitWithPromise = async (event, data, cb = null) => {
-    await socket.emit(event, data, ({ status }) => {
-      if (status !== 'ok') {
-        throw new Error('sockets.error');
-      }
-      if (cb) {
-        cb();
-      }
-    });
+    try {
+      await socket.emit(event, data, ({ status }) => {
+        if (status !== 'ok') {
+          throw new Error('Network Error');
+        }
+        if (cb) {
+          cb();
+        }
+      });
+    } catch (error) {
+      notify(t(`toast.${error.message}`), 'error');
+    }
   };
 
   useEffect(() => {
@@ -28,9 +34,6 @@ const SocketsContextProvider = ({ children, socket }) => {
     });
 
     socket.on('newMessage', (data) => {
-      if (!data) {
-        console.log('achtung!');
-      }
       dispatch(addMessage(data));
     });
     socket.on('newChannel', (data) => {
