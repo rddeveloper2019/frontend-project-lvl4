@@ -1,7 +1,4 @@
 import React, { createContext, useState } from 'react';
-import tokenServices from '../services/tokenServices.js';
-
-const { setTokenToLocal, getTokenFromLocal, removeToken } = tokenServices;
 
 const ChatContext = createContext(null);
 
@@ -22,26 +19,19 @@ const ChatContextProvider = ({ children }) => {
     }
   };
 
-  const login = async (loginData) => {
-    const { username, token } = loginData;
-    const localData = await setTokenToLocal({ username, token });
-    setCurrentUser({ username, ...localData });
-  };
-
-  const initUserName = () => {
-    const data = getTokenFromLocal();
-    if (data) {
-      setCurrentUser({ ...data });
-    }
+  const login = ({ username, token }) => {
+    localStorage.setItem('chat-token', JSON.stringify(token));
+    setCurrentUser(username);
   };
 
   const isAuth = () => {
-    const data = getTokenFromLocal();
-    return !!data;
+    const token = JSON.parse(localStorage.getItem('chat-token'));
+
+    return !!token;
   };
 
   const logout = () => {
-    removeToken();
+    localStorage.removeItem('chat-token');
     setCurrentUser(null);
   };
 
@@ -53,7 +43,6 @@ const ChatContextProvider = ({ children }) => {
         isAuth,
         logout,
         identifyError,
-        initUserName,
       }}
     >
       {children}

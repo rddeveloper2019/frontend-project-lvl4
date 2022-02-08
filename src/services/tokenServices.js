@@ -1,9 +1,7 @@
 import jwtDecode from 'jwt-decode';
 
-const setTokenToLocal = ({ username, token }) => {
-  const { userId } = jwtDecode(token);
-  localStorage.setItem('chat-token', JSON.stringify({ username, token }));
-  return { userId, username };
+const setTokenToLocal = (username, token) => {
+  localStorage.setItem(username, JSON.stringify(token));
 };
 
 const getTokenFromLocal = () => {

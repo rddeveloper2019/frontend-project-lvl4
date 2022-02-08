@@ -3,10 +3,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import filter from 'leo-profanity';
-import tokenServices from '../services/tokenServices.js';
 import pathes from '../routes.js';
-
-const { getTokenFromLocal } = tokenServices;
 
 filter.add(filter.getDictionary('ru'));
 const getCleaned = (data) => {
@@ -20,10 +17,11 @@ const getCleaned = (data) => {
 
 const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue }) => {
   try {
+    const token = JSON.parse(localStorage.getItem('chat-token'));
     const response = await axios.get(
       pathes.dataPath(), {
         headers: {
-          Authorization: `Bearer ${getTokenFromLocal().token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -43,7 +41,7 @@ const chatSlice = createSlice({
   initialState: {
     channels: [],
     messages: [],
-    users: [],
+    // users: [],
     currentChannelId: null,
     selectedChannelId: null,
     channelsFetchState: null,

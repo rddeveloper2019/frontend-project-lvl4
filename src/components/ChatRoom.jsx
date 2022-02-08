@@ -1,5 +1,4 @@
-/* eslint-disable consistent-return */
-/* eslint-disable max-len */
+// /* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { useSelector } from 'react-redux';
@@ -19,11 +18,7 @@ const ChatRoom = () => {
   const [messageText, setMessageText] = useState('');
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
   const { onSocketError, emitWithPromise } = useSocketsContext();
-  const { currentUser, initUserName } = useChatContext();
-
-  useEffect(() => {
-    initUserName();
-  }, []);
+  const { currentUser } = useChatContext();
 
   useEffect(() => {
     const currentChannel = channels.find((channel) => channel.id === currentChannelId);
@@ -38,14 +33,12 @@ const ChatRoom = () => {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (!messageText.trim()) {
-      return false;
+
+    if (messageText.trim()) {
+      const data = { body: messageText, channelId: currentChannelId, username: currentUser };
+      emitWithPromise('newMessage', data);
+      setMessageText('');
     }
-
-    const data = { body: messageText, channelId: currentChannelId, username: currentUser.username };
-
-    emitWithPromise('newMessage', data);
-    setMessageText('');
   };
 
   return (
@@ -68,7 +61,10 @@ const ChatRoom = () => {
       </div>
       <ScrollToBottom className="chat-content">
         <ListGroup>
-          {currentMessages.map(({ id, username, body }) => <Message key={id} username={username} body={body} />)}
+          {currentMessages.map((msg) => {
+            const { id, username, body } = msg;
+            return <Message key={id} username={username} body={body} />;
+          }) }
 
         </ListGroup>
       </ScrollToBottom>

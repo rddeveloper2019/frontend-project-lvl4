@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable functional/no-let */
 
 import React from 'react';
 import {
@@ -17,10 +15,7 @@ const DefaultChannel = (props) => {
     id, name, handleOnClick, active,
   } = props;
 
-  let classes = 'channel-button';
-  if (active) {
-    classes += ' active';
-  }
+  const classes = active ? 'channel-button active' : 'channel-button';
 
   return (
     <ListGroup.Item className="list-group-item bg-transparent border-0 py-1">
@@ -43,10 +38,8 @@ const RemovableChannel = (props) => {
   const {
     id, name, handleOnClick, active, handleShowModal,
   } = props;
-  let classes = 'channel-button';
-  if (active) {
-    classes += ' active';
-  }
+
+  const classes = active ? 'channel-button active' : 'channel-button';
 
   return (
     <ListGroup.Item className="list-group-item bg-transparent border-0 py-1 ">
@@ -65,7 +58,6 @@ const RemovableChannel = (props) => {
           as={ButtonGroup}
           title=""
           variant="outline-primary"
-
         >
           <span className="visually-hidden">{t('channels.channel_control')}</span>
           <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>{t('channels.dropdown.remove')}</Dropdown.Item>
