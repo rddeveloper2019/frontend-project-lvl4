@@ -3,11 +3,25 @@ import 'regenerator-runtime/runtime.js';
 import 'bootstrap/scss/bootstrap.scss';
 import 'react-toastify/scss/main.scss';
 import './styles.scss';
-
-import init from './init.js';
+import ReactDOM from 'react-dom';
+import { io } from 'socket.io-client';
+import init from './init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-init();
+const container = document.querySelector('#root');
+const socket = io();
+
+const start = async () => {
+  const application = await init(socket);
+  ReactDOM.render(
+    application, container,
+  );
+
+  return application;
+};
+
+start();
+export default start;
