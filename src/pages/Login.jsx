@@ -35,6 +35,7 @@ function Login() {
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
+      notify(t('fetchErrors.Network Error'), 'error');
       const { response } = error;
       if (!response) {
         notify(t(`fetchErrors.${error.message}`), 'error');
