@@ -15,7 +15,7 @@ const getCleaned = (data) => {
   return { ...data, body: filter.clean(data.body) };
 };
 
-const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue }) => {
+const initChat = createAsyncThunk('chatstore/init', async (errorCb, { rejectWithValue }) => {
   try {
     const token = JSON.parse(localStorage.getItem('chat-token'));
     const response = await axios.get(
@@ -33,7 +33,6 @@ const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue
     return response.data;
   } catch (error) {
     console.log('****fetcht errors****: ', error.message);
-
     return rejectWithValue(error.message);
   }
 });

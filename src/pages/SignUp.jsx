@@ -39,7 +39,8 @@ function SignUp() {
       notify(t('fetchErrors.Network Error'), 'error');
       const { response } = error;
       if (!response) {
-        notify(t(`toast.${error.message}`), 'error');
+        // notify(t(`toast.${error.message}`), 'error');
+        notify(t('fetchErrors.Network Error'), 'error');
       }
       onSubmitProps.setErrors({
         confirmPassword: identifyError(+response.status),

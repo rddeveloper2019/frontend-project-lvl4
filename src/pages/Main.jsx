@@ -6,17 +6,25 @@ import {
 
 } from 'react-bootstrap';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { notify } from '../services/toastify.js';
 import { initChat } from '../store/ChatSlice.js';
 import Channels from '../components/Channels.jsx';
 import ChatRoom from '../components/ChatRoom.jsx';
 
 const Main = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const { channelsFetchError } = useSelector((store) => store.chatstore);
 
   useEffect(() => {
     dispatch(initChat());
   }, []);
+
+  if (channelsFetchError) {
+    notify(t('toast.network_error'), 'error');
+  }
 
   return (
     <div className="page">
