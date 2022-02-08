@@ -13,7 +13,7 @@ const getCleaned = (data) => {
   return { ...data, body: filter.clean(data.body) };
 };
 
-export const initChat = createAsyncThunk('chatstore/init', async (errorCb, { rejectWithValue }) => {
+export const initChat = createAsyncThunk('chatstore/init', async (_, { rejectWithValue }) => {
   try {
     const token = JSON.parse(localStorage.getItem('chat-token'));
     const response = await axios.get(
@@ -52,7 +52,6 @@ const chatSlice = createSlice({
       state.currentChannelId = action.payload.id;
     },
     setSelectedChannel: (state, action) => {
-      console.log(action);
       state.selectedChannelId = action.payload;
     },
     addMessage: (state, action) => {
