@@ -5,12 +5,9 @@ import 'react-toastify/scss/main.scss';
 import './styles.scss';
 
 import init from './init.js';
-import trainings from './trainings.js';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
 init();
-
-trainings();

@@ -2,29 +2,27 @@
 
 import _ from 'lodash';
 import HttpErrors from 'http-errors';
-import customdb from './db.js';
 
 const { Unauthorized, Conflict } = HttpErrors;
 
 const getNextId = () => Number(_.uniqueId());
 
 const buildState = (defaultState) => {
-  // const generalChannelId = getNextId();
-  // const randomChannelId = getNextId();
+  const generalChannelId = getNextId();
+  const randomChannelId = getNextId();
 
-  const state = customdb;
-  // const state = {
-  //   channels: [
-  //     { id: generalChannelId, name: 'general', removable: false },
-  //     { id: randomChannelId, name: 'random', removable: false },
-  //   ],
-  //   messages: [
-  //   ],
-  //   currentChannelId: generalChannelId,
-  //   users: [
-  //     { id: 1, username: 'admin', password: 'admin' },
-  //   ],
-  // };
+  const state = {
+    channels: [
+      { id: generalChannelId, name: 'general', removable: false },
+      { id: randomChannelId, name: 'random', removable: false },
+    ],
+    messages: [
+    ],
+    currentChannelId: generalChannelId,
+    users: [
+      { id: 1, username: 'admin', password: 'admin' },
+    ],
+  };
 
   if (defaultState.messages) {
     state.messages.push(...defaultState.messages);
