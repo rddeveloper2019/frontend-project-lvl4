@@ -56,7 +56,7 @@ const dictionary = {
       signup: {
         title: 'Регистрация',
         submit: 'Зарегистрироваться',
-        nickname_placeholder: 'Ваш ник',
+        nickname_placeholder: 'Имя пользователя',
         pass_placeholder: 'Пароль',
         confirm_pass_placeholder: 'Подтвердите пароль',
       },
