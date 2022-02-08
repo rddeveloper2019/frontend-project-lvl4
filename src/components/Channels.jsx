@@ -3,7 +3,7 @@ import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import {
   Button,
-  ListGroup, ButtonGroup, Row,
+  ListGroup, Row,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -37,23 +37,27 @@ const Channels = () => {
         <ListGroup>
           {channelsFetchState === 'loading' && <LoadingStatus message={t(`fetchErrors.${channelsFetchState}`)} />}
           {channelsFetchState === 'rejected' && <LoadingStatus message={t(`fetchErrors.${channelsFetchError}`)} />}
+          {' '}
+
           <ListGroup.Item className="list-group-item bg-transparent border-0 ">
-            <ButtonGroup className="w-100">
+            {' '}
+
+            <div className="d-flex justify-content-between mb-2 ps-4 pe-2 align-items-center btn btn-outline-primary main-button">
+              <span>{t('channels.channels')}</span>
               <Button
                 variant="outline-primary"
-                className="channel-button py-3"
+                className="channel-button py-2 border-0"
                 onClick={() => dispatch(showModal('addChannel'))}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-square me-1" viewBox="0 0 16 16">
-                  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                  <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
                 <span className="visually-hidden">
                   {t('channels.add_button')}
                 </span>
-                <span>{t('channels.channels')}</span>
+
               </Button>
-            </ButtonGroup>
+            </div>
           </ListGroup.Item>
 
         </ListGroup>
