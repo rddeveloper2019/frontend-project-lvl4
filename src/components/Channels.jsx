@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
 import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
@@ -42,11 +44,11 @@ const Channels = () => {
           <ListGroup.Item className="list-group-item bg-transparent border-0 ">
             {' '}
 
-            <div className="d-flex justify-content-between mb-2 ps-4 pe-2 align-items-center btn btn-outline-primary main-button">
+            <div className="d-flex justify-content-between mb-2 ps-4 pe-2 align-items-center  main-color">
               <span>{t('channels.channels')}</span>
               <Button
                 variant="outline-primary"
-                className="channel-button py-2 border-0"
+                className="channel-button py-2 "
                 onClick={() => dispatch(showModal('addChannel'))}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">

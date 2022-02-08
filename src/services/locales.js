@@ -38,7 +38,7 @@ const dictionary = {
 
       channels: {
         channels: 'Каналы',
-        channel_control: 'Упарвление каналом',
+        channel_control: 'Управление каналом',
         add_button: '+',
         dropdown: {
           remove: 'Удалить',
