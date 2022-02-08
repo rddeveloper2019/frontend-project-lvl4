@@ -20,6 +20,7 @@ const dictionary = {
           write_your_message: 'Введите сообщение...',
         },
         input_aria_label: 'Новое сообщение',
+        submit: 'Отправить',
         messages: {
           counter: {
             count_one: '{{count}} сообщение',
