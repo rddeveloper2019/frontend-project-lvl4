@@ -37,7 +37,7 @@ function Login() {
     } catch (error) {
       const { response } = error;
       if (!response) {
-        notify(t(`toast.${error.message}`), 'error');
+        notify(t(`fetchErrors.${error.message}`), 'error');
       }
       onSubmitProps.setErrors({
         password: identifyError(+response.status),
