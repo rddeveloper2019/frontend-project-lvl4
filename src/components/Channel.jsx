@@ -67,6 +67,7 @@ const RemovableChannel = (props) => {
           variant="outline-primary"
 
         >
+          <span className="visually-hidden">{t('channels.channel_control')}</span>
           <Dropdown.Item onClick={handleShowModal(id, 'removeChannel')}>{t('channels.dropdown.remove')}</Dropdown.Item>
           <Dropdown.Item onClick={handleShowModal(id, 'renameChannel')}>{t('channels.dropdown.rename')}</Dropdown.Item>
         </DropdownButton>

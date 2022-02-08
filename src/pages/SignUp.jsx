@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import {
-  Container, Col, Row, Button,
+  Container, Col, Row, Button, Form as BootstrapForm,
 } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -82,15 +82,18 @@ function SignUp({ notify }) {
                             required
                             ref={nicknameRef}
                           />
+                          <BootstrapForm.Label className="visually-hidden" htmlFor="nickname">{t('login.nickname_placeholder')}</BootstrapForm.Label>
                           {errors.nickname !== 'no-message' && errors.nickname && (
                             <div className="invalid-tooltip">
                               {t(errors.nickname)}
                             </div>
                           )}
+
                         </div>
 
                       )}
                     </Field>
+
                     <Field name="password">
                       {() => (
                         <div className="mb-2 position-relative">
@@ -103,15 +106,18 @@ function SignUp({ notify }) {
                             required
 
                           />
+                          <BootstrapForm.Label className="visually-hidden" htmlFor="password">{t('login.pass_placeholder')}</BootstrapForm.Label>
                           {errors.password !== 'no-message' && errors.password && (
                             <div className="invalid-tooltip">
                               {t(errors.password)}
                             </div>
                           )}
+
                         </div>
 
                       )}
                     </Field>
+
                     <Field name="confirmPassword">
                       {() => (
                         <div className="mb-2 position-relative">
@@ -124,6 +130,8 @@ function SignUp({ notify }) {
                             required
 
                           />
+
+                          <BootstrapForm.Label className="visually-hidden" htmlFor="confirmPassword">{t('signup.confirm_pass_placeholder')}</BootstrapForm.Label>
                           {errors.confirmPassword && (
                             <div className="invalid-tooltip">
                               {t(errors.confirmPassword)}
@@ -133,6 +141,7 @@ function SignUp({ notify }) {
 
                       )}
                     </Field>
+
                     <Button
                       variant="outline-primary"
                       type="submit"

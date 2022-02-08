@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Container, Col, Row, Button,
+  Container, Col, Row, Button, Form as BootstrapForm,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
@@ -87,6 +87,7 @@ function Login({ notify }) {
                             required
                             ref={nicknameRef}
                           />
+                          <BootstrapForm.Label className="visually-hidden" htmlFor="nickname">{t('login.nickname_placeholder')}</BootstrapForm.Label>
                           {errors.nickname !== 'no-message'
                             && errors.nickname && (
                               <div className="invalid-tooltip">
@@ -96,6 +97,7 @@ function Login({ notify }) {
                         </div>
                       )}
                     </Field>
+
                     <Field name="password">
                       {() => (
                         <div className="mb-2 position-relative">
@@ -107,6 +109,7 @@ function Login({ notify }) {
                             onChange={handleChange}
                             required
                           />
+                          <BootstrapForm.Label className="visually-hidden" htmlFor="password">{t('login.pass_placeholder')}</BootstrapForm.Label>
                           {errors.password && (
                             <div className="invalid-tooltip">
                               {t(errors.password)}

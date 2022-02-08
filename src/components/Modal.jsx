@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Button, Modal,
+  Button, Modal, Form as BootstrapForm,
 } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -143,7 +143,9 @@ const ModalComponent = ({ notify }) => {
                         onChange={handleChange}
                         ref={channelRef}
                         value={values.channel}
+                        placeholder={t('modal.channel_name')}
                       />
+                      <BootstrapForm.Label className="visually-hidden" htmlFor="channel">{t('modal.channel_name')}</BootstrapForm.Label>
                       { errors.channel && (
                       <div className="invalid-tooltip">
                         {t(errors.channel)}

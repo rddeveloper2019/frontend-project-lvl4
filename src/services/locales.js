@@ -6,7 +6,7 @@ const dictionary = {
         rename: 'Переименовать',
         add: 'Добавить канал',
         affirm: 'Уверены?',
-
+        channel_name: 'Имя канала',
         buttons: {
           exit: 'Выйти',
           remove: 'Удалить',
@@ -36,9 +36,11 @@ const dictionary = {
 
       channels: {
         channels: 'Каналы',
+        channel_control: 'Упарвление каналом',
         dropdown: {
           remove: 'Удалить',
           rename: 'Переименовать',
+
         },
       },
       login: {
