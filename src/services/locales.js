@@ -19,6 +19,7 @@ const dictionary = {
         placeholders: {
           write_your_message: 'Введите сообщение...',
         },
+        input_aria_label: 'Новое сообщение',
         messages: {
           counter: {
             count_one: '{{count}} сообщение',
@@ -67,6 +68,7 @@ const dictionary = {
         must_match: 'Пароли должны совпадать',
         must_be_unique: 'Должно быть уникальным',
       },
+
       fetchErrors: {
         conflict: 'Такой пользователь уже существует',
         unauthorized: 'Неверные имя пользователя или пароль',

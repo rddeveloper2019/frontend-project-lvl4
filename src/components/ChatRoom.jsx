@@ -71,7 +71,7 @@ const ChatRoom = () => {
       <div className="settings-tray d-flex justify-content-between align-items-center mt-auto shadow">
         <form onSubmit={handleSendMessage} className="w-100">
           <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder={t('chatroom.placeholders.write_your_message')} aria-label="Recipient's username" aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
+            <input type="text" className="form-control" placeholder={t('chatroom.placeholders.write_your_message')} aria-label={t('chatroom.input_aria_label')} aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
 
             <button className="btn btn-outline-primary main-button shadow" type="button" id="button-addon2" onClick={handleSendMessage}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-square" viewBox="0 0 16 16">
