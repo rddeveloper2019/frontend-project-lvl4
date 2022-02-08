@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable max-len */
 import React from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import {
@@ -71,7 +68,15 @@ const Channels = () => {
 
               {channels.map((channel) => {
                 const active = channel.id === currentChannelId;
-                return <Channel key={channel.id} {...channel} active={active} handleOnClick={handleOnClick} handleShowModal={handleShowModal} />;
+                return (
+                  <Channel
+                    key={channel.id}
+                    {...channel}
+                    active={active}
+                    handleOnClick={handleOnClick}
+                    handleShowModal={handleShowModal}
+                  />
+                );
               })}
 
             </ListGroup>

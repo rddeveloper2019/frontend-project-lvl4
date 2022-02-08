@@ -1,4 +1,3 @@
-// /* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { useSelector } from 'react-redux';

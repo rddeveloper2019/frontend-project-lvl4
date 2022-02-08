@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import filter from 'leo-profanity';
@@ -15,7 +13,7 @@ const getCleaned = (data) => {
   return { ...data, body: filter.clean(data.body) };
 };
 
-const initChat = createAsyncThunk('chatstore/init', async (errorCb, { rejectWithValue }) => {
+export const initChat = createAsyncThunk('chatstore/init', async (errorCb, { rejectWithValue }) => {
   try {
     const token = JSON.parse(localStorage.getItem('chat-token'));
     const response = await axios.get(
@@ -42,7 +40,6 @@ const chatSlice = createSlice({
   initialState: {
     channels: [],
     messages: [],
-    // users: [],
     currentChannelId: null,
     defaultChannelId: null,
     selectedChannelId: null,
@@ -112,11 +109,8 @@ const chatSlice = createSlice({
 });
 
 const { reducer } = chatSlice;
-const {
+export const {
   setCurrentChannel, addMessage, addChannel, setSelectedChannel, renameChannel, removeChannel,
 } = chatSlice.actions;
 
-export {
-  setCurrentChannel, initChat, addMessage, addChannel, setSelectedChannel, renameChannel, removeChannel,
-};
 export default reducer;
