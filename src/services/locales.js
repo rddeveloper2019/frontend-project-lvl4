@@ -83,7 +83,7 @@ const dictionary = {
         error: 'Ошибка соединения',
       },
       toast: {
-        'Network Error': 'Ошибка соединения',
+        network_error: 'Ошибка соединения',
         removeChannel: 'Канал удалён',
         addChannel: 'Канал создан',
         renameChannel: 'Канал переименован',

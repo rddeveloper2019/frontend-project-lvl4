@@ -13,17 +13,18 @@ const SocketsContextProvider = ({ children, socket }) => {
   const dispatch = useDispatch();
   const [onSocketError, setOnSocketError] = useState(null);
 
-  const emitWithPromise = async (event, data, cb = null) => {
+  const emitWithPromise = async (event, data, errorMessage = 'network_error', cb = null) => {
     try {
       await socket.emit(event, data, ({ status }) => {
         if (status !== 'ok') {
-          throw new Error('Network Error');
+          throw new Error(errorMessage);
         }
         if (cb) {
           cb();
         }
       });
     } catch (error) {
+      console.log('****socket errors****: ', error.message);
       notify(t(`toast.${error.message}`), 'error');
     }
   };

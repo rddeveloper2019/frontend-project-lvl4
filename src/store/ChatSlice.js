@@ -32,6 +32,8 @@ const initChat = createAsyncThunk('chatstore/init', async (id, { rejectWithValue
 
     return response.data;
   } catch (error) {
+    console.log('****fetch errors****: ', error.message);
+
     return rejectWithValue(error.message);
   }
 });
