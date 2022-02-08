@@ -43,6 +43,7 @@ const chatSlice = createSlice({
     messages: [],
     // users: [],
     currentChannelId: null,
+    defaultChannelId: null,
     selectedChannelId: null,
     channelsFetchState: null,
     channelsFetchError: null,
@@ -76,15 +77,11 @@ const chatSlice = createSlice({
 
     removeChannel: (state, action) => {
       const { id } = action.payload;
-      const generalChannel = state.channels.find((c) => c.name === 'general');
-
       if (state.currentChannelId === id) {
-        state.currentChannelId = generalChannel.id;
+        state.currentChannelId = state.defaultChannelId;
       }
-
       state.messages = state.messages.filter((msg) => msg.channelId !== id);
       state.channels = state.channels.filter((c) => c.id !== id);
-      console.log(action.payload);
     },
   },
 
@@ -98,6 +95,8 @@ const chatSlice = createSlice({
       const { channels, currentChannelId, messages } = action.payload;
       state.channels = channels.map(getCleaned);
       state.currentChannelId = currentChannelId;
+      state.defaultChannelId = channels[0].id;
+
       state.messages = messages.map(getCleaned);
       state.channelsFetchState = 'resolved';
       state.channelsFetchError = null;

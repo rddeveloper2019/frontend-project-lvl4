@@ -46,6 +46,9 @@ const ModalComponent = ({ notify }) => {
     if (modalType === 'renameChannel' || modalType === 'addChannel') {
       data.name = values.channel;
     }
+    if (modalType === 'removeChannel') {
+      console.log('modal');
+    }
 
     try {
       emitWithPromise(optionsBy[modalType].emit, data);
