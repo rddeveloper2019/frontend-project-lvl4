@@ -1,23 +1,12 @@
 import * as yup from 'yup';
 
-const getValidationSchema = (options, { array = [], flag = null }) => {
-  const validationMethods = {
-    channel: yup.string()
-      .required('validation.required')
-      .min(3, 'validation.range_of_symbols')
-      .max(20, 'validation.range_of_symbols')
-      .notOneOf(array, 'validation.must_be_unique'),
+const getValidationSchema = (type, array = []) => {
+  const registration = {
     nickname: yup.string()
-      .required('validation.required'),
-
-    reg_nickname: yup.string()
       .required('validation.required')
       .min(3, 'validation.range_of_symbols')
       .max(20, 'validation.range_of_symbols'),
     password: yup
-      .string()
-      .required('validation.required'),
-    reg_password: yup
       .string()
       .required('validation.required')
       .min(6, 'validation.min_range'),
@@ -27,17 +16,21 @@ const getValidationSchema = (options, { array = [], flag = null }) => {
       .required('validation.required'),
   };
 
-  const shapeObj = options.reduce((acc, option) => {
-    acc[option] = validationMethods[option];
-    return acc;
-  }, {});
+  const channel = {
+    channel: yup.string()
+      .required('validation.required')
+      .min(3, 'validation.range_of_symbols')
+      .max(20, 'validation.range_of_symbols')
+      .notOneOf(array, 'validation.must_be_unique'),
+  };
 
-  if (flag) {
-    shapeObj.nickname = validationMethods.reg_nickname;
-    shapeObj.password = validationMethods.reg_password;
-  }
+  const map = {
+    registration,
+    channel,
 
-  return yup.object().shape(shapeObj);
+  };
+
+  return yup.object().shape(map[type]);
 };
 
 export default getValidationSchema;

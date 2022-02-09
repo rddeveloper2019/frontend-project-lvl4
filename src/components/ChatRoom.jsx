@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import Message from './Message.jsx';
 import useSocketsContext from '../hooks/useSocketsContext.js';
 import useChatContext from '../hooks/useChatContext.js';
-import LoadingStatus from './LoadingStatus.jsx';
 
 const ChatRoom = () => {
   const { t } = useTranslation();
@@ -16,7 +15,7 @@ const ChatRoom = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
-  const { onSocketError, emitWithPromise } = useSocketsContext();
+  const { emitWithPromise } = useSocketsContext();
   const { currentUser } = useChatContext();
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const ChatRoom = () => {
 
   return (
     <>
-      {onSocketError && <LoadingStatus message={t(onSocketError)} />}
+
       <div className="settings-tray d-flex justify-content-between align-items-center border-bottom">
         <div className="w-100 d-flex justify-content-start align-items-center p-0">
           <span className="round d-flex justify-content-center align-items-center ms-2">

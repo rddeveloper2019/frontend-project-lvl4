@@ -57,7 +57,7 @@ function SignUp() {
           <Col className="col text-center  d-flex justify-content-center">
             <Formik
               initialValues={initialValues}
-              validationSchema={getValidationSchema(['nickname', 'password', 'confirmPassword'], { flag: 'reg' })}
+              validationSchema={getValidationSchema('registration')}
               validateOnBlur
               validateOnChange
               onSubmit={onSubmit}

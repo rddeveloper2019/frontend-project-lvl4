@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { notify } from '../services/toastify.js';
@@ -11,13 +11,11 @@ const SocketsContext = createContext(null);
 const SocketsContextProvider = ({ children, socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [onSocketError, setOnSocketError] = useState(null);
 
   const emitWithPromise = async (event, data, errorMessage = 'network_error', cb = null) => {
     try {
       await socket.emit(event, data, ({ status }) => {
         if (status !== 'ok') {
-          console.log('**** status **** ', status);
           throw new Error(errorMessage);
         }
         if (cb) {
@@ -25,16 +23,11 @@ const SocketsContextProvider = ({ children, socket }) => {
         }
       });
     } catch (error) {
-      console.log('****socket errors****: ', error.message);
-      notify(t('toast.network_error'), 'error');
+      notify(t('sockets.error'), 'error');
     }
   };
 
   useEffect(() => {
-    socket.on('connect', () => {
-      setOnSocketError(null);
-    });
-
     socket.on('newMessage', (data) => {
       dispatch(addMessage(data));
     });
@@ -49,21 +42,20 @@ const SocketsContextProvider = ({ children, socket }) => {
       dispatch(removeChannel(data));
     });
 
-    socket.on('connect_failed', (data) => {
-      console.log('*** connection failed data: ****', data);
-      notify(t('toast.network_error'), 'error');
+    socket.on('connect_failed', () => {
+      notify(t('sockets.error'), 'error');
     });
 
     socket.on('connect_error', () => {
-      setOnSocketError('sockets.reconnect');
       setTimeout(() => {
+        notify(t('sockets.reconnect'), 'warning');
         socket.connect();
       }, 5000);
     });
-  }, []);
+  }, [dispatch, socket, t]);
 
   const value = {
-    socket, emitWithPromise, onSocketError, setOnSocketError,
+    socket, emitWithPromise,
   };
 
   return (<SocketsContext.Provider value={value}>{children}</SocketsContext.Provider>);

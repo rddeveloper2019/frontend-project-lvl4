@@ -31,7 +31,6 @@ export const initChat = createAsyncThunk('chatstore/init', async (_, { rejectWit
 
     return response.data;
   } catch (error) {
-    console.log('****fetcht errors****: ', error.message);
     return rejectWithValue(error.message);
   }
 });
@@ -59,7 +58,6 @@ const chatSlice = createSlice({
       state.messages.push(getCleaned(action.payload));
     },
     addChannel: (state, action) => {
-      console.log('addChannel slice: ', action.payload);
       state.channels.push(getCleaned(action.payload));
       state.currentChannelId = action.payload.id;
     },

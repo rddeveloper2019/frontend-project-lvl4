@@ -16,7 +16,7 @@ const ModalComponent = () => {
   const { modalstore, chatstore } = useSelector((store) => store);
   const { selectedChannelId, channels } = chatstore;
   const { isShown, modalType } = modalstore;
-  const { emitWithPromise, setOnSocketError } = useSocketsContext();
+  const { emitWithPromise } = useSocketsContext();
 
   const channelRef = useRef(null);
 
@@ -52,7 +52,6 @@ const ModalComponent = () => {
       emitWithPromise(optionsBy[modalType].emit, data);
       notify(t(`toast.${modalType}`), 'success');
     } catch (error) {
-      setOnSocketError(error.message);
       notify(t('toast.Network Error'), 'error');
     } finally {
       onSubmitProps.setSubmitting(false);
@@ -111,7 +110,7 @@ const ModalComponent = () => {
       </Modal.Header>
       <Formik
         initialValues={{ channel: optionsBy[modalType].value }}
-        validationSchema={getValidationSchema(['channel'], { array: channels.map((item) => item.name) })}
+        validationSchema={getValidationSchema('channel', channels.map((item) => item.name))}
         validateOnSubmit
         validateOnChange
         onSubmit={onSubmit}
