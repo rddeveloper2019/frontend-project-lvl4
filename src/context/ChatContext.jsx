@@ -5,20 +5,6 @@ const ChatContext = createContext(null);
 const ChatContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  const identifyError = (code) => {
-    switch (code) {
-      case 401: {
-        return 'fetchErrors.unauthorized';
-      }
-      case 409: {
-        return 'fetchErrors.conflict';
-      }
-      default: {
-        return 'fetchErrors.default';
-      }
-    }
-  };
-
   const login = ({ username, token }) => {
     localStorage.setItem('chat-token', JSON.stringify(token));
     setCurrentUser(username);
@@ -42,7 +28,6 @@ const ChatContextProvider = ({ children }) => {
         login,
         isAuth,
         logout,
-        identifyError,
       }}
     >
       {children}

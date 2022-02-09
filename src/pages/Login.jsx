@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next';
 import useChatContext from '../hooks/useChatContext.js';
 import pathes from '../routes.js';
 import { notify } from '../services/toastify.js';
+import identifyError from '../services/identifyError.js';
 
 function Login() {
   const { t } = useTranslation();
-  const { login, identifyError } = useChatContext();
+  const { login } = useChatContext();
 
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
@@ -35,13 +36,12 @@ function Login() {
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
-      notify(t('fetchErrors.Network Error'), 'error');
       const { response } = error;
       if (!response) {
-        notify(t(`fetchErrors.${error.message}`), 'error');
+        notify(t('fetchErrors.Network Error'), 'error');
       }
       onSubmitProps.setErrors({
-        password: identifyError(+response.status),
+        password: identifyError(response.status),
         nickname: 'no-message',
       });
       onSubmitProps.setSubmitting(false);

@@ -10,11 +10,12 @@ import getValidationSchema from '../services/validationSchemas.js';
 import useChatContext from '../hooks/useChatContext.js';
 import pathes from '../routes.js';
 import { notify } from '../services/toastify.js';
+import identifyError from '../services/identifyError.js';
 
 function SignUp() {
   const { t } = useTranslation();
 
-  const { login, identifyError } = useChatContext();
+  const { login } = useChatContext();
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
   useEffect(() => {
@@ -36,14 +37,12 @@ function SignUp() {
       onSubmitProps.setSubmitting(false);
       navigate('/');
     } catch (error) {
-      notify(t('fetchErrors.Network Error'), 'error');
       const { response } = error;
       if (!response) {
-        // notify(t(`toast.${error.message}`), 'error');
         notify(t('fetchErrors.Network Error'), 'error');
       }
       onSubmitProps.setErrors({
-        confirmPassword: identifyError(+response.status),
+        confirmPassword: identifyError(response.status),
         password: 'no-message',
         nickname: 'no-message',
       });

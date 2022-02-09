@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Outlet, Link, useNavigate,
+  Outlet, Link, useNavigate, useLocation,
 } from 'react-router-dom';
 import {
   Container, Navbar, Nav,
@@ -12,6 +12,7 @@ function Layout() {
   const { isAuth, logout } = useChatContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleExit = () => {
     logout();
@@ -27,7 +28,7 @@ function Layout() {
           </Navbar.Brand>
           <Nav className="ms-auto">
 
-            {isAuth() && (
+            {(isAuth() && pathname === '/') && (
               <Link to="/" className="btn btn-outline-primary shadow" onClick={handleExit}>
                 {t('layout.buttons.exit')}
               </Link>
