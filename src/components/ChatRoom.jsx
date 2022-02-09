@@ -27,7 +27,7 @@ const ChatRoom = () => {
     }
 
     setCurrentMessages(messageList);
-  }, [currentChannelId, messages]);
+  }, [currentChannelId, messages, channels]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();

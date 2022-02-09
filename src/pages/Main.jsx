@@ -20,10 +20,10 @@ const Main = () => {
 
   useEffect(() => {
     dispatch(initChat());
-  }, []);
+  }, [dispatch]);
 
   if (channelsFetchError) {
-    notify(t('toast.network_error'), 'error');
+    notify(t('fetchErrors.Network Error'), 'error');
   }
 
   return (

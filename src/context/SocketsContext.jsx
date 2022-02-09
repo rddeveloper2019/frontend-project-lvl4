@@ -12,7 +12,7 @@ const SocketsContextProvider = ({ children, socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const emitWithPromise = async (event, data, errorMessage = 'network_error', cb = null) => {
+  const emitWithPromise = async (event, data, errorMessage = 'Network Error', cb = null) => {
     try {
       await socket.emit(event, data, ({ status }) => {
         if (status !== 'ok') {

@@ -52,7 +52,7 @@ const ModalComponent = () => {
       emitWithPromise(optionsBy[modalType].emit, data);
       notify(t(`toast.${modalType}`), 'success');
     } catch (error) {
-      notify(t('toast.Network Error'), 'error');
+      notify(t('fetchErrors.Network Error'), 'error');
     } finally {
       onSubmitProps.setSubmitting(false);
       handleClose();
