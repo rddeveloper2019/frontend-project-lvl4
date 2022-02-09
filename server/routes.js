@@ -47,7 +47,6 @@ export default (app, defaultState = {}) => {
     console.log({ 'socket.id': socket.id });
 
     socket.on('newMessage', (message, acknowledge = _.noop) => {
-      console.log(message);
       const messageWithId = {
         ...message,
         id: getNextId(),
