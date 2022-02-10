@@ -16,7 +16,7 @@ const getCleaned = (data) => {
 
 export const initChat = createAsyncThunk('chatstore/init', async (_, { rejectWithValue }) => {
   try {
-    const token = JSON.parse(localStorage.getItem('chat-token'));
+    const { token } = JSON.parse(localStorage.getItem('chat-token'));
     const response = await axios.get(
       pathes.dataPath(), {
         headers: {

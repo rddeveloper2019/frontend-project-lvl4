@@ -80,3 +80,7 @@ body {
 .channels-list {
   height: calc(100% - 140px);
 }
+
+textarea.form-control {
+  resize: none;
+}

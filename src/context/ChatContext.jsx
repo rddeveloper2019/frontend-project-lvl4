@@ -6,14 +6,16 @@ const ChatContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   const login = ({ username, token }) => {
-    localStorage.setItem('chat-token', JSON.stringify(token));
+    localStorage.setItem('chat-token', JSON.stringify({ token, username }));
     setCurrentUser(username);
   };
 
   const isAuth = () => {
-    const token = JSON.parse(localStorage.getItem('chat-token'));
-
-    return !!token;
+    const data = JSON.parse(localStorage.getItem('chat-token'));
+    if (data) {
+      setCurrentUser(data.username);
+    }
+    return !!data;
   };
 
   const logout = () => {

@@ -11,10 +11,10 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const container = document.querySelector('#root');
-const socket = io();
-
 const start = async () => {
+  const container = document.querySelector('#root');
+  const socket = io();
+
   const application = await init(socket);
   ReactDOM.render(
     application, container,

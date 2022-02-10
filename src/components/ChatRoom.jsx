@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { useSelector } from 'react-redux';
 import {
@@ -17,7 +17,7 @@ const ChatRoom = () => {
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
   const { emitWithPromise } = useSocketsContext();
   const { currentUser } = useChatContext();
-
+  const messageInputRef = useRef(null);
   useEffect(() => {
     const currentChannel = channels.find((channel) => channel.id === currentChannelId);
     const messageList = messages.filter((msg) => msg.channelId === currentChannelId);
@@ -28,6 +28,12 @@ const ChatRoom = () => {
 
     setCurrentMessages(messageList);
   }, [currentChannelId, messages, channels]);
+
+  useEffect(() => {
+    if (messageInputRef.current) {
+      messageInputRef.current.focus();
+    }
+  }, []);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -69,7 +75,8 @@ const ChatRoom = () => {
       <div className="settings-tray d-flex justify-content-between align-items-center mt-auto shadow">
         <form onSubmit={handleSendMessage} className="w-100">
           <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder={t('chatroom.placeholders.write_your_message')} aria-label={t('chatroom.input_aria_label')} aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
+
+            <textarea rows={1} wrap="soft" ref={messageInputRef} type="text" className="form-control" placeholder={t('chatroom.placeholders.write_your_message')} aria-label={t('chatroom.input_aria_label')} aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
 
             <button className="btn btn-outline-primary main-button shadow" type="button" id="button-addon2" onClick={handleSendMessage}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-square" viewBox="0 0 16 16">
