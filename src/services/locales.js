@@ -88,7 +88,7 @@ const dictionary = {
       },
       toast: {
         removeChannel: 'Канал удалён',
-        addChannel: 'Канал создан',
+        newChannel: 'Канал создан',
         renameChannel: 'Канал переименован',
       },
     },
