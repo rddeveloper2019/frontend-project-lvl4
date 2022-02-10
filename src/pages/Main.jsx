@@ -9,14 +9,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { notify } from '../services/toastify.js';
-import { initChat } from '../store/ChatSlice.js';
+import { initChat } from '../store/ChannelsSlice.js';
 import Channels from '../components/Channels.jsx';
 import ChatRoom from '../components/ChatRoom.jsx';
 
 const Main = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { channelsFetchError } = useSelector((store) => store.chatstore);
+  const { channelsFetchError } = useSelector((store) => store.channelsstore);
 
   useEffect(() => {
     dispatch(initChat());

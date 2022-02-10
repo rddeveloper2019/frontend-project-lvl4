@@ -13,8 +13,8 @@ import { notify } from '../services/toastify.js';
 const ModalComponent = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { modalstore, chatstore } = useSelector((store) => store);
-  const { selectedChannelId, channels } = chatstore;
+  const { modalstore, channelsstore } = useSelector((store) => store);
+  const { selectedChannelId, channels } = channelsstore;
   const { isShown, modalType } = modalstore;
   const { emitWithPromise } = useSocketsContext();
 

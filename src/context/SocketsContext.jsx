@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { notify } from '../services/toastify.js';
 import {
-  addMessage, addChannel, renameChannel, removeChannel,
-} from '../store/ChatSlice';
+  addChannel, renameChannel, removeChannel,
+} from '../store/ChannelsSlice';
+import { addMessage, removeMessages } from '../store/MessagesSlice.js';
 
 const SocketsContext = createContext(null);
 
@@ -40,6 +41,7 @@ const SocketsContextProvider = ({ children, socket }) => {
     });
     socket.on('removeChannel', (data) => {
       dispatch(removeChannel(data));
+      dispatch(removeMessages(data));
     });
 
     socket.on('connect_failed', () => {

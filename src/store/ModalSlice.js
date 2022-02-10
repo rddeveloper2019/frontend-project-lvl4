@@ -25,6 +25,6 @@ const { reducer } = chatSlice;
 const { showModal, closeModal } = chatSlice.actions;
 
 export {
-  reducer, showModal, closeModal,
+  showModal, closeModal,
 };
 export default reducer;

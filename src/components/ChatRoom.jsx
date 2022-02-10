@@ -12,7 +12,9 @@ import useChatContext from '../hooks/useChatContext.js';
 const ChatRoom = () => {
   const { t } = useTranslation();
   const [messageText, setMessageText] = useState('');
-  const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
+  const { channelsstore, messagesstore } = useSelector((store) => store);
+  const { channels, currentChannelId } = channelsstore;
+  const { messages } = messagesstore;
   const { emitWithPromise } = useSocketsContext();
   const { currentUser } = useChatContext();
   const messageInputRef = useRef(null);

@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { setCurrentChannel, setSelectedChannel } from '../store/ChatSlice.js';
+import { setCurrentChannel, setSelectedChannel } from '../store/ChannelsSlice.js';
 import { showModal } from '../store/ModalSlice.js';
 import Channel from './Channel.jsx';
 import LoadingStatus from './LoadingStatus.jsx';
@@ -17,7 +17,7 @@ const Channels = () => {
   const {
     channels, channelsFetchState,
     channelsFetchError, currentChannelId,
-  } = useSelector((store) => store.chatstore);
+  } = useSelector((store) => store.channelsstore);
 
   const dispatch = useDispatch();
 

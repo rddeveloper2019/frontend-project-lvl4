@@ -1,19 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import filter from 'leo-profanity';
 import pathes from '../routes.js';
+import getCleaned from '../services/getCleaned.js';
+import { fetchMessages } from './MessagesSlice.js';
 
-const getCleaned = (data) => {
-  const { name } = data;
-  if (name) {
-    return { ...data, name: filter.clean(data.name) };
-  }
-
-  return { ...data, body: filter.clean(data.body) };
-};
-
-export const initChat = createAsyncThunk('chatstore/init', async (_, { rejectWithValue }) => {
+export const initChat = createAsyncThunk('chatstore/init', async (_, { rejectWithValue, dispatch }) => {
   try {
     const { token } = JSON.parse(localStorage.getItem('chat-token'));
     const response = await axios.get(
@@ -28,17 +20,18 @@ export const initChat = createAsyncThunk('chatstore/init', async (_, { rejectWit
       throw new Error('Network Error');
     }
 
-    return response.data;
+    const { messages, ...channels } = response.data;
+    dispatch(fetchMessages(messages));
+    return channels;
   } catch (error) {
     return rejectWithValue(error.message);
   }
 });
 
 const chatSlice = createSlice({
-  name: 'chatstore',
+  name: 'channelsstore',
   initialState: {
     channels: [],
-    messages: [],
     currentChannelId: null,
     defaultChannelId: null,
     selectedChannelId: null,
@@ -53,9 +46,7 @@ const chatSlice = createSlice({
     setSelectedChannel: (state, action) => {
       state.selectedChannelId = action.payload;
     },
-    addMessage: (state, action) => {
-      state.messages.push(getCleaned(action.payload));
-    },
+
     addChannel: (state, action) => {
       state.channels.push(getCleaned(action.payload));
       state.currentChannelId = action.payload.id;
@@ -75,7 +66,6 @@ const chatSlice = createSlice({
       if (state.currentChannelId === id) {
         state.currentChannelId = state.defaultChannelId;
       }
-      state.messages = state.messages.filter((msg) => msg.channelId !== id);
       state.channels = state.channels.filter((c) => c.id !== id);
     },
   },
@@ -87,12 +77,11 @@ const chatSlice = createSlice({
     },
 
     [initChat.fulfilled]: (state, action) => {
-      const { channels, currentChannelId, messages } = action.payload;
+      const { channels, currentChannelId } = action.payload;
       state.channels = channels.map(getCleaned);
       state.currentChannelId = currentChannelId;
       state.defaultChannelId = channels[0].id;
 
-      state.messages = messages.map(getCleaned);
       state.channelsFetchState = 'resolved';
       state.channelsFetchError = null;
     },
@@ -107,7 +96,7 @@ const chatSlice = createSlice({
 
 const { reducer } = chatSlice;
 export const {
-  setCurrentChannel, addMessage, addChannel, setSelectedChannel, renameChannel, removeChannel,
+  setCurrentChannel, addChannel, setSelectedChannel, renameChannel, removeChannel,
 } = chatSlice.actions;
 
 export default reducer;
