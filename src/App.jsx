@@ -12,34 +12,38 @@ import ChatContextProvider from './context/ChatContext.jsx';
 import SocketsContextProvider from './context/SocketsContext.jsx';
 import chatStore from './store';
 import ModalComponent from './components/Modal.jsx';
+import pathes from './routes.js';
 
-const App = ({ socket }) => (
-  <BrowserRouter>
-    <Provider store={chatStore}>
-      <ChatContextProvider>
-        <SocketsContextProvider socket={socket}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route
-                index
-                element={(
-                  <RequireAuth>
-                    <Main />
-                  </RequireAuth>
+const App = ({ socket }) => {
+  const { homepagePath, loginPagePath, signupPagePath } = pathes;
+  return (
+    <BrowserRouter>
+      <Provider store={chatStore}>
+        <ChatContextProvider>
+          <SocketsContextProvider socket={socket}>
+            <Routes>
+              <Route path={homepagePath()} element={<Layout />}>
+                <Route
+                  index
+                  element={(
+                    <RequireAuth>
+                      <Main />
+                    </RequireAuth>
           )}
-              />
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<SignUp />} />
-              <Route path="*" element={<PageNotFound />} />
-            </Route>
-          </Routes>
-          <ToastContainer />
-          <ModalComponent />
-        </SocketsContextProvider>
-      </ChatContextProvider>
-    </Provider>
-  </BrowserRouter>
+                />
+                <Route path={loginPagePath()} element={<Login />} />
+                <Route path={signupPagePath()} element={<SignUp />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Route>
+            </Routes>
+            <ToastContainer />
+            <ModalComponent />
+          </SocketsContextProvider>
+        </ChatContextProvider>
+      </Provider>
+    </BrowserRouter>
 
-);
+  );
+};
 
 export default App;

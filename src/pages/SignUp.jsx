@@ -14,7 +14,7 @@ import identifyError from '../services/identifyError.js';
 
 function SignUp() {
   const { t } = useTranslation();
-
+  const { signupPath, homepagePath } = pathes;
   const { login } = useChatContext();
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
@@ -32,10 +32,10 @@ function SignUp() {
     onSubmitProps.setSubmitting(true);
     try {
       const user = { username: values.nickname, password: values.password };
-      const res = await axios.post(pathes.signupPath(), user);
+      const res = await axios.post(signupPath(), user);
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
-      navigate('/');
+      navigate(homepagePath());
     } catch (error) {
       const { response } = error;
       if (!response) {

@@ -5,5 +5,8 @@ export default {
   dataPath: () => [host, prefix, 'data'].join('/'),
   loginPath: () => [host, prefix, 'login'].join('/'),
   signupPath: () => [host, prefix, 'signup'].join('/'),
+  homepagePath: () => '/',
+  loginPagePath: () => '/login',
+  signupPagePath: () => '/signup',
   //
 };

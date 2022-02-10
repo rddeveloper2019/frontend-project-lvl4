@@ -4,7 +4,6 @@ import axios from 'axios';
 import filter from 'leo-profanity';
 import pathes from '../routes.js';
 
-filter.add(filter.getDictionary('ru'));
 const getCleaned = (data) => {
   const { name } = data;
   if (name) {

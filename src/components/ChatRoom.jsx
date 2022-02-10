@@ -11,23 +11,21 @@ import useChatContext from '../hooks/useChatContext.js';
 
 const ChatRoom = () => {
   const { t } = useTranslation();
-  const [channelName, setChannelName] = useState('');
-  const [currentMessages, setCurrentMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
   const { channels, currentChannelId, messages } = useSelector((store) => store.chatstore);
   const { emitWithPromise } = useSocketsContext();
   const { currentUser } = useChatContext();
   const messageInputRef = useRef(null);
-  useEffect(() => {
-    const currentChannel = channels.find((channel) => channel.id === currentChannelId);
-    const messageList = messages.filter((msg) => msg.channelId === currentChannelId);
 
-    if (currentChannel) {
-      setChannelName(currentChannel.name);
+  const channelName = channels.reduce((acc, channel) => {
+    if (channel.id === currentChannelId) {
+      // eslint-disable-next-line no-param-reassign
+      acc = channel.name;
     }
+    return acc;
+  }, '');
 
-    setCurrentMessages(messageList);
-  }, [currentChannelId, messages, channels]);
+  const messageList = messages.filter((msg) => msg.channelId === currentChannelId);
 
   useEffect(() => {
     if (messageInputRef.current) {
@@ -57,7 +55,7 @@ const ChatRoom = () => {
             <p className="m-0 ms-3">{channelName}</p>
             <p className="m-0 ms-3 text-dark">
               { t('chatroom.messages.counter.count', {
-                count: currentMessages.length,
+                count: messageList.length,
               })}
             </p>
           </div>
@@ -65,7 +63,7 @@ const ChatRoom = () => {
       </div>
       <ScrollToBottom className="chat-content">
         <ListGroup>
-          {currentMessages.map((msg) => {
+          {messageList.map((msg) => {
             const { id, username, body } = msg;
             return <Message key={id} username={username} body={body} />;
           }) }
@@ -76,7 +74,7 @@ const ChatRoom = () => {
         <form onSubmit={handleSendMessage} className="w-100">
           <div className="input-group mb-3">
 
-            <textarea rows={1} wrap="soft" ref={messageInputRef} type="text" className="form-control" placeholder={t('chatroom.placeholders.write_your_message')} aria-label={t('chatroom.input_aria_label')} aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
+            <input ref={messageInputRef} type="text" className="form-control text-break" placeholder={t('chatroom.placeholders.write_your_message')} aria-label={t('chatroom.input_aria_label')} aria-describedby="button-addon2" value={messageText} onChange={(e) => { setMessageText(e.target.value); }} />
 
             <button className="btn btn-outline-primary main-button shadow" type="button" id="button-addon2" onClick={handleSendMessage}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-square" viewBox="0 0 16 16">

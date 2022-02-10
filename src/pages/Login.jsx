@@ -14,7 +14,7 @@ import identifyError from '../services/identifyError.js';
 function Login() {
   const { t } = useTranslation();
   const { login } = useChatContext();
-
+  const { signupPagePath, loginPath, homepagePath } = pathes;
   const navigate = useNavigate();
   const nicknameRef = useRef(null);
   useEffect(() => {
@@ -31,10 +31,10 @@ function Login() {
 
     try {
       const user = { username: values.nickname, password: values.password };
-      const res = await axios.post(pathes.loginPath(), user);
+      const res = await axios.post(loginPath(), user);
       login({ username: values.nickname, ...res.data });
       onSubmitProps.setSubmitting(false);
-      navigate('/');
+      navigate(homepagePath());
     } catch (error) {
       const { response } = error;
       if (!response) {
@@ -139,7 +139,7 @@ function Login() {
             <div className="p-2 w-50 shadow rounded text-white fw-bold ">
               {t('login.footer.descr')}
               {'  '}
-              <Link to="/signup" className="main-color fw-bold ">
+              <Link to={signupPagePath()} className="main-color fw-bold ">
                 {' '}
                 {t('login.footer.registr_link')}
               </Link>
