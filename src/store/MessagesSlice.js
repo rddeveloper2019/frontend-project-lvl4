@@ -12,9 +12,8 @@ const MessagesSlice = createSlice({
       state.messages.push(getCleaned(action.payload));
     },
     fetchMessages: (state, action) => {
-      const messages = action.payload;
-      console.log(action.payload);
-      state.messages = messages.map(getCleaned);
+      const fetchedMessages = action.payload;
+      state.messages = fetchedMessages.map(getCleaned);
     },
     removeMessages: (state, action) => {
       const { id } = action.payload;

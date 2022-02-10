@@ -11,7 +11,8 @@ import RequireAuth from './components/RequireAuth.jsx';
 import ChatContextProvider from './context/ChatContext.jsx';
 import SocketsContextProvider from './context/SocketsContext.jsx';
 import chatStore from './store';
-import ModalComponent from './components/Modal.jsx';
+import Modal from './components/Modal.jsx';
+
 import pathes from './routes.js';
 
 const App = ({ socket }) => {
@@ -37,7 +38,7 @@ const App = ({ socket }) => {
               </Route>
             </Routes>
             <ToastContainer />
-            <ModalComponent />
+            <Modal />
           </SocketsContextProvider>
         </ChatContextProvider>
       </Provider>

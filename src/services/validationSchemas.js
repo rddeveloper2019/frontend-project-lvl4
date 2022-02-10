@@ -27,7 +27,6 @@ const getValidationSchema = (type, array = []) => {
   const map = {
     registration,
     channel,
-
   };
 
   return yup.object().shape(map[type]);
