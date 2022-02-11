@@ -18,8 +18,7 @@ const init = async (socket) => {
     });
 
   const rollbarConfig = {
-    // accessToken: process.env.ROLLBAR_TOKEN || '',
-    accessToken: '3fdfc66547f249668e241dd9198626cf',
+    accessToken: process.env.ROLLBAR_TOKEN,
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {
