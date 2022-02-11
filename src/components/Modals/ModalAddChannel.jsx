@@ -9,10 +9,12 @@ import useSocketsContext from '../../hooks/useSocketsContext.js';
 import { closeModal } from '../../store/ModalSlice.js';
 import getValidationSchema from '../../services/validationSchemas.js';
 import { notify } from '../../services/toastify.js';
+import useChatContext from '../../hooks/useChatContext.js';
 
 const ModalAddChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { currentUser } = useChatContext();
   const { modalstore, channelsstore } = useSelector((store) => store);
   const { selectedChannelId, channels } = channelsstore;
   const { isShown, modalType } = modalstore;
@@ -31,7 +33,7 @@ const ModalAddChannel = () => {
   const handleClose = () => dispatch(closeModal());
 
   const onSubmit = (values, onSubmitProps) => {
-    const data = { id: selectedChannelId, name: values.channel };
+    const data = { id: selectedChannelId, name: values.channel, createdBy: currentUser };
     onSubmitProps.setSubmitting(true);
 
     try {

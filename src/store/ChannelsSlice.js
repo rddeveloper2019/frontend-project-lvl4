@@ -48,8 +48,12 @@ const chatSlice = createSlice({
     },
 
     addChannel: (state, action) => {
-      state.channels.push(getCleaned(action.payload));
-      state.currentChannelId = action.payload.id;
+      const { createdBy, ...restData } = action.payload;
+      const data = JSON.parse(localStorage.getItem('chat-token'));
+      if (data && data.username === createdBy) {
+        state.currentChannelId = restData.id;
+      }
+      state.channels.push(getCleaned(restData));
     },
     renameChannel: (state, action) => {
       const updatedChannel = getCleaned(action.payload);
