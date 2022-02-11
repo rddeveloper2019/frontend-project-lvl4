@@ -1,7 +1,4 @@
-const identifyError = (code) => {
-  if (!code) {
-    return 'fetchErrors.default';
-  }
+const identifyError = (code = 'no-code') => {
   switch (code) {
     case 401: {
       return 'fetchErrors.unauthorized';
