@@ -83,6 +83,7 @@ function SignUp() {
                             onChange={handleChange}
                             required
                             ref={nicknameRef}
+                            autoComplete="username"
                           />
                           <BootstrapForm.Label className="visually-hidden" htmlFor="nickname">{t('signup.nickname_placeholder')}</BootstrapForm.Label>
                           {errors.nickname !== 'no-message' && errors.nickname && (
@@ -106,6 +107,7 @@ function SignUp() {
                             placeholder={t('signup.pass_placeholder')}
                             onChange={handleChange}
                             required
+                            autoComplete="new-password"
 
                           />
                           <BootstrapForm.Label className="visually-hidden" htmlFor="password">{t('login.pass_placeholder')}</BootstrapForm.Label>
@@ -130,6 +132,7 @@ function SignUp() {
                             placeholder={t('signup.confirm_pass_placeholder')}
                             onChange={handleChange}
                             required
+                            autoComplete="new-password"
 
                           />
 

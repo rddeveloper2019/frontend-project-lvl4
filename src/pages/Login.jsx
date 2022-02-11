@@ -87,6 +87,7 @@ function Login() {
                             onChange={handleChange}
                             required
                             ref={nicknameRef}
+                            autoComplete="username"
                           />
                           <BootstrapForm.Label className="visually-hidden" htmlFor="nickname">{t('login.nickname_placeholder')}</BootstrapForm.Label>
                           {errors.nickname !== 'no-message'
@@ -109,6 +110,7 @@ function Login() {
                             placeholder={t('login.pass_placeholder')}
                             onChange={handleChange}
                             required
+                            autoComplete="current-password"
                           />
                           <BootstrapForm.Label className="visually-hidden" htmlFor="password">{t('login.pass_placeholder')}</BootstrapForm.Label>
                           {errors.password && (
